@@ -7,7 +7,7 @@
 			"command": "C:/mingw64/bin/g++.exe",
 			"args": [
 				"-fdiagnostics-color=always",
-				"-g",
+				"-gdwarf-2",
 				"-Wall",
 				"-std=c++17",
 				"${fileDirname}\\*.cpp",
