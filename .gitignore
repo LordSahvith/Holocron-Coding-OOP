@@ -31,6 +31,9 @@
 *.out
 *.app
 
-#Misc
+# Misc
 *.pdb
 *.ilk
+*.codelite
+*.ctagsd
+*.cache

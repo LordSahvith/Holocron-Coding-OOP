@@ -1,0 +1,5 @@
+[{
+  "file": "C:\\Users\\User\\Documents\\GitHub\\Holocron-Coding-OOP\\matrix\\courses\\udemy\\C++\\Beginner-Beyond\\Beginner-Beyond\\Project1\\main.cpp",
+  "directory": "C:\\Users\\User\\Documents\\GitHub\\Holocron-Coding-OOP\\matrix\\courses\\udemy\\C++\\Beginner-Beyond\\Beginner-Beyond\\Project1",
+  "command": "C:/mingw64/bin/g++.exe -c C:\\Users\\User\\Documents\\GitHub\\Holocron-Coding-OOP\\matrix\\courses\\udemy\\C++\\Beginner-Beyond\\Beginner-Beyond\\Project1\\main.cpp -o C:\\Users\\User\\Documents\\GitHub\\Holocron-Coding-OOP\\matrix\\courses\\udemy\\C++\\Beginner-Beyond\\Beginner-Beyond\\Project1\\main.cpp.o -target x86_64-w64-mingw32 -IC:\\mingw64\\include\\c++\\14.2.0 -IC:\\mingw64\\include\\c++\\14.2.0\\x86_64-w64-mingw32 -IC:\\mingw64\\include\\c++\\14.2.0\\backward -IC:\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\14.2.0\\include -IC:\\mingw64\\include -IC:\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\14.2.0\\include-fixed -IC:\\mingw64\\x86_64-w64-mingw32\\include -I. -I.  -O0  -gdwarf-2  -std=c++17  -Wall"
+ }]
