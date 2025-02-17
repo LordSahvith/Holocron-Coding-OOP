@@ -189,7 +189,7 @@ int main()
                         LargestNumber = ListNumber;
                     }
                 }
-                cout << "Smallest Number is: " << LargestNumber << endl;
+                cout << "Largest Number is: " << LargestNumber << endl;
             }
             else
             {
