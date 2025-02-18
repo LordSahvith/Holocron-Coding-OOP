@@ -48,16 +48,14 @@ int main()
 
     for (char letter : SecretMessage)
     {
-        if (letter != ' ')
+        size_t KeyLocation = alphabet.find(letter);
+        if (KeyLocation != string::npos)
         {
-            int KeyLocation = alphabet.find(letter);
-            char Key = key.at(KeyLocation);
-
-            EncrpytedMessage += Key;
+            EncrpytedMessage += key.at(KeyLocation);
         }
         else
         {
-            EncrpytedMessage += " ";
+            EncrpytedMessage += letter; // uses whatever was typed if it wasn't in list
         }
     }
 
@@ -65,16 +63,14 @@ int main()
 
     for (char letter : EncrpytedMessage)
     {
-        if (letter != ' ')
+        size_t KeyLocation = key.find(letter);
+        if (KeyLocation != string::npos)
         {
-            int KeyLocation = key.find(letter);
-            char Key = alphabet.at(KeyLocation);
-
-            DecrpytedMessage += Key;
+            DecrpytedMessage += alphabet.at(KeyLocation);
         }
         else
         {
-            DecrpytedMessage += " ";
+            DecrpytedMessage += letter; // uses whatever was typed if it wasn't in list
         }
     }
 
