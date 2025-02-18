@@ -46,31 +46,31 @@ int main()
     cout << "Enter your Secret Message: ";
     getline(cin, SecretMessage);
 
-    for (char letter : SecretMessage)
+    for (char character : SecretMessage)
     {
-        size_t KeyLocation = alphabet.find(letter);
+        size_t KeyLocation = alphabet.find(character);
         if (KeyLocation != string::npos)
         {
             EncrpytedMessage += key.at(KeyLocation);
         }
         else
         {
-            EncrpytedMessage += letter; // uses whatever was typed if it wasn't in list
+            EncrpytedMessage += character; // uses whatever was typed if it wasn't in list
         }
     }
 
     cout << "Encrypted Message: " << EncrpytedMessage << endl;
 
-    for (char letter : EncrpytedMessage)
+    for (char character : EncrpytedMessage)
     {
-        size_t KeyLocation = key.find(letter);
+        size_t KeyLocation = key.find(character);
         if (KeyLocation != string::npos)
         {
             DecrpytedMessage += alphabet.at(KeyLocation);
         }
         else
         {
-            DecrpytedMessage += letter; // uses whatever was typed if it wasn't in list
+            DecrpytedMessage += character; // uses whatever was typed if it wasn't in list
         }
     }
 
