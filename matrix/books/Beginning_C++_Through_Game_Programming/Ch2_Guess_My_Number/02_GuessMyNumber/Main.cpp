@@ -7,12 +7,21 @@
 
 using namespace std;
 
+enum difficulty
+{
+    EASY = 10,
+    MEDIUM = 6,
+    HARD = 3
+};
+
 int main()
 {
     cout << "\n\nWelcome to Guess my Number\n\n";
 
     bool playAgain = true;
     bool guessesLeft = true;
+
+    difficulty maxTries;
 
     while (playAgain)
     {
@@ -24,15 +33,6 @@ int main()
         int difficultyChosen;
         cout << "\nChoose Difficulty: ";
         cin >> difficultyChosen;
-
-        enum difficulty
-        {
-            EASY = 10,
-            MEDIUM = 6,
-            HARD = 3
-        };
-
-        difficulty maxTries;
 
         switch (difficultyChosen)
         {
@@ -50,7 +50,6 @@ int main()
         }
 
         cout << "\nMax Tries: " << maxTries << endl;
-
 
         // seed random number generator
         srand(static_cast<unsigned int>(time(0)));
