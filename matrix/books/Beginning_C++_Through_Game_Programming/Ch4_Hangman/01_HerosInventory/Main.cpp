@@ -1,4 +1,4 @@
-// Hero's Inventory 2.0
+// Hero's Inventory 3.0
 // Demonstrates vectors
 
 #include <iostream>
@@ -14,54 +14,47 @@ int main()
     inventory.push_back("armor");
     inventory.push_back("shield");
 
-    cout << "\n\nYou have " << inventory.size() << " items.\n";
-
-    cout << "Your items:\n";
-    for (string item : inventory)
-    {
-        cout << " - " << item << endl;
-    }
-
-    cout << "\nYou trade your " << inventory[0] << " for a battle axe.";
-    inventory[0] = "battle axe";
-    cout << "\nYour items:\n";
-    for (string item : inventory)
-    {
-        cout << " - " << item << endl;
-    }
-
-    cout << "\nThe item name '" << inventory[0] << "' has ";
-    cout << inventory[0].size() << " letters in it\n";
-
-    cout << "\nYou find a healing potion.";
-    inventory.push_back("healing potion");
+    vector<string>::iterator myIterator;
+    vector<string>::const_iterator iter;
 
     cout << "\nYour items:\n";
-    for (string item : inventory)
+    for (iter = inventory.begin(); iter != inventory.end(); ++iter)
     {
-        cout << " - " << item << endl;
+        cout << " - " << *iter << endl;
     }
 
-    cout << "\nYou survive a gruesome battle with an Orc pack.";
-    cout << "\nYour sheild was broken in battle and you used";
-    cout << "\nyour healing potion to mend your wounds.\n";
-
-    inventory.pop_back(); // healing potion
-    inventory.pop_back(); // shield
+    cout << "\nYou trade your sword for a battle axe.";
+    myIterator = inventory.begin();
+    *myIterator = "battle axe";
 
     cout << "\nYour items:\n";
-    for (string item : inventory)
+    for (iter = inventory.begin(); iter != inventory.end(); ++iter)
     {
-        cout << " - " << item << endl;
+        cout << " - " << *iter << endl;
     }
 
-    cout << "\nThen has luck has it, you were robbed by a theif in the night...";
-    inventory.clear();
+    cout << "\nThe item name '" << *myIterator << "' has ";
+    cout << (*myIterator).size() << " letters in it.\n";
+
+    cout << "\nThe item name '" << *myIterator << "' has ";
+    cout << myIterator->size() << " letters in it.\n";
+
+    cout << "\nYou recover a bow from a slain enemy.";
+    inventory.insert(inventory.begin(), "bow");
 
     cout << "\nYour items:\n";
-    if (inventory.empty())
+    for (iter = inventory.begin(); iter != inventory.end(); ++iter)
     {
-        cout << "You have no items." << endl;
+        cout << " - " << *iter << endl;
+    }
+
+    cout << "\nYour armor is destroyed in a fierce battle.";
+    inventory.erase((inventory.begin() + 2));
+
+    cout << "\nYour items:\n";
+    for (iter = inventory.begin(); iter != inventory.end(); ++iter)
+    {
+        cout << " - " << *iter << endl;
     }
 
     return 0;
