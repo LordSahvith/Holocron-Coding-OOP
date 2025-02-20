@@ -71,8 +71,6 @@ void PassByReference(int& num)
 
 unsigned long long fibonacci(unsigned long long n)
 {
-    cout << n << endl;
-    
     if (n <= 1)
     {
         return n;
