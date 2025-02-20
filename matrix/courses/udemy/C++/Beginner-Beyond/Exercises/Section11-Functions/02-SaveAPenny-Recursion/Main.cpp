@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ int main()
 
         double totalAmount{0.01};
         a_penny_doubled_everyday(days, totalAmount);
-        cout << "\ntotal amount : $" << totalAmount << endl;
+        cout << "\ntotal amount : $" << setprecision(10) << totalAmount << endl;
 
         PlayAgain(testAgain);
     }
@@ -30,7 +31,7 @@ int main()
 double a_penny_doubled_everyday(int days, double& amount)
 {
     cout << "\nDay " << days << ": $" << amount;
-    
+
     if (days <= 1)
     {
         return 0;
