@@ -2,103 +2,19 @@
 // Simulates caring for a virtual pet
 
 #include <iostream>
+#include "Critter.h"
 
 using namespace std;
 
-class Critter
-{
-  public:
-    Critter(int hunger = 0, int boredom = 0);
-    void Talk();
-    void Eat(int food = 4);
-    void Play(int fun = 4);
-
-  private:
-    int Hunger;
-    int Boredom;
-
-    int GetMood() const;
-    void PassTime(int time = 1);
-};
-
-Critter::Critter(int hunger, int boredom)
-{
-    Hunger = hunger;
-    Boredom = boredom;
-}
-
-inline int Critter::GetMood() const
-{
-    return (Hunger + Boredom);
-}
-
-void Critter::PassTime(int time)
-{
-    Hunger += time;
-    Boredom += time;
-}
-
-void Critter::Talk()
-{
-    cout << "I'm a critter and I feel ";
-    int mood = GetMood();
-
-    if (mood > 15)
-    {
-        cout << "mad.\n";
-    }
-    else if (mood > 10)
-    {
-        cout << "frustrated.\n";
-    }
-    else if (mood > 5)
-    {
-        cout << "okay.\n";
-    }
-    else
-    {
-        cout << "happy.\n";
-    }
-
-    PassTime();
-}
-
-void Critter::Eat(int food)
-{
-    cout << "eating..." << endl;
-
-    Hunger -= food;
-
-    if (Hunger < 0)
-    {
-        Hunger = 0;
-    }
-
-    PassTime();
-}
-
-void Critter::Play(int fun)
-{
-    cout << "playing...." << endl;
-
-    Boredom -= fun;
-
-    if (Boredom < 0)
-    {
-        Boredom = 0;
-    }
-
-    PassTime();
-}
-
 int main()
 {
-    Critter Maui;
-    Maui.Talk();
+    Critter MyCritter("Maui");
 
     int choice;
     do
     {
+        MyCritter.GetStats();
+
         cout << "\nCritter Caretaker\n";
         cout << "0 - Quit\n";
         cout << "1 - Listen to your critter\n";
@@ -114,13 +30,13 @@ int main()
             cout << "Goodbye." << endl;
             break;
         case 1:
-            Maui.Talk();
+            MyCritter.Talk();
             break;
         case 2:
-            Maui.Eat();
+            MyCritter.Eat();
             break;
         case 3:
-            Maui.Play();
+            MyCritter.Play();
             break;
         default:
             cout << "Sorry, but " << choice << " isn't a valid choice.\n";
