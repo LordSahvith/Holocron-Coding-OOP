@@ -5,9 +5,14 @@
 
 using std::cout;
 
-Enemy::Enemy()
+Enemy::Enemy(int damage)
 {
-    Damage = 10;
+    Damage = damage;
+}
+
+void Enemy::Taunt() const
+{
+    cout << "Enemy: I will fight you!\n";
 }
 
 void Enemy::Attack() const

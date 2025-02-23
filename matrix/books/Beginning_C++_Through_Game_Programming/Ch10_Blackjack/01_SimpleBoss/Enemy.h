@@ -3,7 +3,10 @@
 class Enemy
 {
   public:
-    Enemy();
+    Enemy(int damage = 10);
+    void virtual Taunt() const;
+    void virtual Attack() const;
+
+  protected:
     int Damage;
-    void Attack() const;
 };

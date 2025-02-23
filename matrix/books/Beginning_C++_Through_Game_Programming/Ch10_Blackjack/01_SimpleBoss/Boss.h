@@ -5,7 +5,11 @@
 class Boss : public Enemy
 {
   public:
-    Boss();
-    int DamageMultiplier;
+    Boss(int damage = 30, int damageMultiplier = 3);
+    void virtual Taunt() const;
+    void virtual Attack() const;
     void SpecialAttack() const;
+
+  private:
+    int DamageMultiplier;
 };
