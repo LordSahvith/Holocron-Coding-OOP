@@ -1,5 +1,5 @@
-// Simple Boss 2.0
-// Demonstrates inheritence
+// Simple Boss 4.0
+// Demonstrates inheritence, calling/overriding base member functions, calling member functions dynamically
 
 #include <iostream>
 #include "Boss.h"

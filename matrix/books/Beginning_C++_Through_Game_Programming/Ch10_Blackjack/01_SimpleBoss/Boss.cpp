@@ -19,7 +19,7 @@ void Boss::Taunt() const
 void Boss::Attack() const
 {
     Enemy::Attack();
-    cout << " and laughs a deep rasping coughing sound.\n";
+    cout << " Then laughs a deep rasping coughing sound.\n";
 }
 
 void Boss::SpecialAttack() const
