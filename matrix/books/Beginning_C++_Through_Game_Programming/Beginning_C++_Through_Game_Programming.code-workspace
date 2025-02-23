@@ -10,7 +10,9 @@
 			"ostream": "cpp",
 			"typeinfo": "cpp",
 			"text_encoding": "cpp",
-			"vector": "cpp"
+			"vector": "cpp",
+			"deque": "cpp",
+			"string": "cpp"
 		}
 	}
 }
