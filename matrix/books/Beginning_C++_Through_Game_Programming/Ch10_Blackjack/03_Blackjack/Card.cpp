@@ -30,5 +30,5 @@ int Card::GetValue() const
 
 void Card::Flip()
 {
-    isFaceUp = !isFaceUp;
+    isFaceUp = !(isFaceUp);
 }

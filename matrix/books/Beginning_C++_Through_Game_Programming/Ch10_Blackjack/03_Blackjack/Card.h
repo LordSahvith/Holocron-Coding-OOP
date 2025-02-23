@@ -24,7 +24,6 @@ class Card
         QUEEN,
         KING
     };
-
     enum suit
     {
         CLUBS,
@@ -34,14 +33,14 @@ class Card
     };
 
     // overloading << operator so can send Card object to standard output
-    friend ostream& operator<<(ostream& os, const Card& card);
+    friend ostream& operator<<(ostream& os, const Card& aCard);
 
     Card(rank r = ACE, suit s = SPADES, bool ifu = true);
 
-    // returns the value of card, 1-11
+    // returns the value of a card, 1 - 11
     int GetValue() const;
 
-    // Flips a card; if face up, becomes face down and vice versa
+    // flips a card; if face up, becomes face down and vice versa
     void Flip();
 
   private:

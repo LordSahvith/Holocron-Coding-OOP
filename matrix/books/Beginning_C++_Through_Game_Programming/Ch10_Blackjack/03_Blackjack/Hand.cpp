@@ -21,7 +21,7 @@ void Hand::Add(Card* card)
 void Hand::Clear()
 {
     // iterate through vector, freeing all memory on the heap
-    vector<Card*>::iterator CardIterator;
+    vector<Card*>::iterator CardIterator = Cards.begin();
     for (CardIterator = Cards.begin(); CardIterator != Cards.end(); ++CardIterator)
     {
         delete *CardIterator;
