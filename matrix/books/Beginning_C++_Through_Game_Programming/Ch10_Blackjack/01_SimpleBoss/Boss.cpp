@@ -7,8 +7,15 @@ using std::cout;
 
 Boss::Boss(int damage, int damageMultiplier)
 {
-    Damage = damage;
-    DamageMultiplier = damageMultiplier;
+    Damage = &damage;
+    DamageMultiplier = new int(damageMultiplier);
+}
+
+Boss::~Boss()
+{
+    cout << "Boss Destructor: deleting DamageMultiplier.\n";
+    delete DamageMultiplier;
+    DamageMultiplier = 0; // nullptr
 }
 
 void Boss::Taunt() const
@@ -18,12 +25,12 @@ void Boss::Taunt() const
 
 void Boss::Attack() const
 {
-    Enemy::Attack();
-    cout << " Then laughs a deep rasping coughing sound.\n";
+    cout << "A boss attacks and inflicts " << *Damage << " damage points!\n";
+    cout << "**Then laughs a deep rasping coughing sound.\n";
 }
 
 void Boss::SpecialAttack() const
 {
     cout << "Boss: ready for my special attack?!\n";
-    cout << "Special Attack inflicts " << Damage * DamageMultiplier << " damage points!\n";
+    cout << "Special Attack inflicts " << (*Damage) * (*DamageMultiplier) << " damage points!\n";
 }

@@ -7,7 +7,14 @@ using std::cout;
 
 Enemy::Enemy(int damage)
 {
-    Damage = damage;
+    Damage = new int(damage);
+}
+
+Enemy::~Enemy()
+{
+    cout << "Enemy Destructor: deleting Damage.\n";
+    delete Damage;
+    Damage = 0; // nullptr
 }
 
 void Enemy::Taunt() const
@@ -17,5 +24,5 @@ void Enemy::Taunt() const
 
 void Enemy::Attack() const
 {
-    cout << "Attack inflicts " << Damage << " damage points!\n";
+    cout << "Attack inflicts " << *Damage << " damage points!\n";
 }
