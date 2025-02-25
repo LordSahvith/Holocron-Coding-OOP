@@ -1,10 +1,10 @@
 #include "Player.h"
 
-Player::Player() : Name{"None"}, Health{100}, XP{0}
+Player::Player() : Player{"None", 100, 0}
 {
 }
 
-Player::Player(std::string name) : Name{name}, Health{100}, XP{0}
+Player::Player(std::string name) : Player{name, 100, 0}
 {
 }
 
