@@ -2,11 +2,25 @@
 
 #include <iostream>
 #include "Account.h"
+#include "Player.h"
 
 using std::cout;
 using std::endl;
 
+void AccountExample();
+
 int main()
+{
+    AccountExample();
+
+    Player Default;
+    Player Savith{"Savith"};
+    Player BadGuy{"Bad Guy", 100, 44};
+
+    return 0;
+}
+
+void AccountExample()
 {
     Account SavithAccount;
     SavithAccount.SetName("Savith");
@@ -39,5 +53,5 @@ int main()
         cout << "Insuffient funds." << endl;
     }
 
-    return 0;
+    cout << "\n================================" << endl;
 }

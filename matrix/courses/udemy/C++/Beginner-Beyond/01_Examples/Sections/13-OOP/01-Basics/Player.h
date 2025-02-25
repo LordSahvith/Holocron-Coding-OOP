@@ -7,14 +7,12 @@ class Player
   private:
     // attributes
     std::string Name;
-    int health;
-    int xp;
+    int Health;
+    int XP;
 
   public:
     // methods
-    void Talk(std::string textToSay)
-    {
-        std::cout << Name << " says " << textToSay << std::endl;
-    }
-    bool IsDead();
+    Player();
+    Player(std::string name);
+    Player(std::string name, int health, int xp);
 };
