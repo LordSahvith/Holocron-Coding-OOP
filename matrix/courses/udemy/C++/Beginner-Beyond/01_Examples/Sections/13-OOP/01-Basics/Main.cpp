@@ -1,4 +1,4 @@
-// Declare Classes and Objects
+// Basic Classes and Objects
 
 #include <iostream>
 #include <string>
@@ -8,43 +8,62 @@ using namespace std;
 
 class Player
 {
+  public:
     // attributes
-    string name{"Player"};
-    int health{0};
-    int xp{3};
+    string name;
+    int health;
+    int xp;
 
     // methods
-    void Talk(string);
+    void Talk(string textToSay)
+    {
+        cout << name << " says " << textToSay << endl;
+    }
     bool IsDead();
 };
 
 class Account
 {
+  public:
     // attributes
-    string name{"Account"};
-    double balance{0};
+    string name;
+    double balance;
 
     // methods
-    bool Deposit(double);
-    bool Withdraw(double);
+    bool Deposit(double bal)
+    {
+        balance += bal;
+        cout << "Deposit" << endl;
+        return true;
+    }
+    bool Withdraw(double bal)
+    {
+        balance -= bal;
+        cout << "Withdraw" << endl;
+        return true;
+    }
 };
 
 int main()
 {
     Player Savith;
-    Player Hero;
 
-    Player Players[]{Savith, Hero};
+    Savith.name = "Savith";
+    Savith.health = 100;
+    Savith.xp = 4;
 
-    vector<Player> PlayerVector{Savith};
-    PlayerVector.push_back(Hero);
+    Player* Enemy = new Player;
+    (*Enemy).name = "Enemy";
+    (*Enemy).health = 100;
+    Enemy->xp = 16;
+    Enemy->Talk("I will destroy you!");
 
-    Player* Enemy{nullptr};
-    Enemy = new Player;
-    delete Enemy;
+    Account SavithAccount;
+    SavithAccount.name = "Savith's Account";
+    SavithAccount.balance = 40000.00;
 
-    Account SavithAcount;
-    Account HeroAcount;
+    SavithAccount.Deposit(1000.0);
+    SavithAccount.Withdraw(400.0);
 
     return 0;
 }
