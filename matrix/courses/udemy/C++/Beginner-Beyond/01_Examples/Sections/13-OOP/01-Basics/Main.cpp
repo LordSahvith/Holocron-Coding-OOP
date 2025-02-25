@@ -16,6 +16,7 @@ int main()
     Player Default;
     Player Savith{"Savith"};
     Player BadGuy{"Bad Guy", 100, 44};
+    Player TwoGuy{"Two Args", 120};
 
     return 0;
 }

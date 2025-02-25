@@ -12,7 +12,5 @@ class Player
 
   public:
     // methods
-    Player();
-    Player(std::string name);
-    Player(std::string name, int health, int xp);
+    Player(std::string name = "None", int health = 100, int xp = 0);
 };
