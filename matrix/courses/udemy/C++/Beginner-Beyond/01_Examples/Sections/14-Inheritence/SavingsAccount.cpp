@@ -3,10 +3,16 @@
 
 SavingsAccount::SavingsAccount() : interestRate{3.0}
 {
+    std::cout << "\n*******************************\n";
+    std::cout << "* Savings Account Constructor *";
+    std::cout << "\n*******************************\n";
 }
 
 SavingsAccount::~SavingsAccount()
 {
+    std::cout << "\n******************************\n";
+    std::cout << "* Savings Account Destructor *";
+    std::cout << "\n******************************\n";
 }
 
 void SavingsAccount::deposit(double amount)

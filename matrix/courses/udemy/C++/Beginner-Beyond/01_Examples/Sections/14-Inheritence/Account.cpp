@@ -3,10 +3,16 @@
 
 Account::Account(double balanceValue, std::string nameValue) : balance{balanceValue}, name{nameValue}
 {
+    std::cout << "\n***********************\n";
+    std::cout << "* Account Constructor *";
+    std::cout << "\n***********************\n";
 }
 
 Account::~Account()
 {
+    std::cout << "\n***********************\n";
+    std::cout << "* Account Destructor *";
+    std::cout << "\n***********************\n";
 }
 
 void Account::deposit(double amount)
