@@ -1,7 +1,4 @@
-#include <iostream>
-#include <string>
-
-using namespace std;
+#include "../../../00_std_lib_facilities.h"
 
 int main()
 {
@@ -14,8 +11,8 @@ int main()
         if (previous == current)
         {
             cout << "word number " << number_of_words << " repeated: " << current << endl;
-            previous = current;
         }
+        previous = current;
     }
 
     return 0;

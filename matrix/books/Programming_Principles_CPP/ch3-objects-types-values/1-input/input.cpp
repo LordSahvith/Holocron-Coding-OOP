@@ -1,7 +1,5 @@
 // read and write first name
-#include <iostream>
-
-using namespace std;
+#include "../../00_std_lib_facilities.h"
 
 int main()
 {

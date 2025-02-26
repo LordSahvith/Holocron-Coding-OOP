@@ -1,8 +1,4 @@
-#include <iostream>
-
-using std::cin;
-using std::cout;
-using std::string;
+#include "../../../00_std_lib_facilities.h"
 
 int main()
 {
