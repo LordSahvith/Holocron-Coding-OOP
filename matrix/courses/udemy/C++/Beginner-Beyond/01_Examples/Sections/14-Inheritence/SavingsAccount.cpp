@@ -1,7 +1,8 @@
 #include <iostream>
 #include "SavingsAccount.h"
 
-SavingsAccount::SavingsAccount() : interestRate{3.0}
+SavingsAccount::SavingsAccount(double balanceValue, std::string nameValue, double interestValue)
+    : Account(balanceValue, nameValue), interestRate{interestValue}
 {
     std::cout << "\n*******************************\n";
     std::cout << "* Savings Account Constructor *";

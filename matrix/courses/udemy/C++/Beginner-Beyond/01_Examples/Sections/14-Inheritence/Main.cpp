@@ -27,9 +27,16 @@ int main()
 
     cout << endl;
 
+    {
+        SavingsAccount Savings2{};
+        Savings2.deposit(5000.0);
+        Savings2.withdraw(400.0);
+    }
+
+    cout << endl;
+
     SavingsAccount* SavingsPtr{nullptr};
-    SavingsPtr = new SavingsAccount();
-    SavingsPtr->deposit(10000.0);
+    SavingsPtr = new SavingsAccount(10000.0, "Savith", 4.4);
     SavingsPtr->withdraw(2000.0);
     delete SavingsPtr;
 

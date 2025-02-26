@@ -5,10 +5,10 @@
 class SavingsAccount : public Account
 {
   public:
-    SavingsAccount();
+    SavingsAccount(double balanceValue = 0, std::string nameValue = "none", double interestValue = 3.0);
     ~SavingsAccount();
     void deposit(double amount);
     void withdraw(double amount);
 
-    double interestRate{0.0};
+    double interestRate;
 };
