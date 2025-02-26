@@ -8,14 +8,20 @@ using std::cout;
 using std::endl;
 
 void AccountExample();
+void DisplayPlayer(Player Player);
 
 int main()
 {
     AccountExample();
 
     Player Default;
+    DisplayPlayer(Default);
+
     Player Savith{"Savith"};
+
     Player BadGuy{"Bad Guy", 100, 44};
+    Player BadGuyCopy(BadGuy);
+
     Player TwoGuy{"Two Args", 120};
 
     return 0;
@@ -55,4 +61,12 @@ void AccountExample()
     }
 
     cout << "\n================================" << endl;
+}
+
+
+void DisplayPlayer(Player Player)
+{
+    std::cout << "Name: " << Player.GetName() << std::endl;
+    std::cout << "Health: " << Player.GetHealth() << std::endl;
+    std::cout << "XP: " << Player.GetXP() << std::endl;
 }
