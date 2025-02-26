@@ -9,10 +9,13 @@ using std::endl;
 
 void AccountExample();
 void DisplayPlayer(Player Player);
+void DisplayPlayerCount();
 
 int main()
 {
     AccountExample();
+
+    DisplayPlayerCount();
 
     Player Default;
     DisplayPlayer(Default);
@@ -23,6 +26,8 @@ int main()
     Player BadGuyCopy(BadGuy);
 
     Player TwoGuy{"Two Args", 120};
+
+    DisplayPlayerCount();
 
     return 0;
 }
@@ -69,4 +74,9 @@ void DisplayPlayer(Player Player)
     std::cout << "Name: " << Player.GetName() << std::endl;
     std::cout << "Health: " << Player.GetHealth() << std::endl;
     std::cout << "XP: " << Player.GetXP() << std::endl;
+}
+
+void DisplayPlayerCount()
+{
+    cout << "Active Players: " << Player::GetPlayerCount() << endl;
 }

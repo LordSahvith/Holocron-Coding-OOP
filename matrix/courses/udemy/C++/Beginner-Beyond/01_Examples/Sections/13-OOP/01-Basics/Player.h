@@ -10,6 +10,8 @@ class Player
     int Health;
     int XP;
 
+    static int PlayerCount;
+
   public:
     // methods
     Player(std::string name = "None", int health = 100, int xp = 0);
@@ -20,9 +22,9 @@ class Player
     // destructor
     ~Player();
 
-    std::string GetName();
+    std::string GetName() const;
     int GetHealth();
     int GetXP();
 
-    void DisplayPlayer(Player p);
+    static int GetPlayerCount(); // belongs to class, not instances
 };
