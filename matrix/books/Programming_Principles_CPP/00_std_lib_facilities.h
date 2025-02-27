@@ -8,3 +8,6 @@ using std::endl;
 
 using std::string;
 using std::vector;
+
+using std::ostream;
+using std::istream;
