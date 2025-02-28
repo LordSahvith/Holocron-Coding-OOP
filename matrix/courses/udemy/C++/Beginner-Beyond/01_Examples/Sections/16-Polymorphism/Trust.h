@@ -7,4 +7,5 @@ class Trust : public Account
   public:
     virtual ~Trust() override;
     virtual void withdraw(double amount) override;
+    virtual void deposit(double) override;
 };

@@ -10,3 +10,8 @@ void Trust::withdraw(double amount)
 {
     std::cout << "Trust Withdraw." << std::endl;
 }
+
+void Trust::deposit(double amount)
+{
+    std::cout << "Trust Deposit." << std::endl;
+}

@@ -10,3 +10,8 @@ void Checking::withdraw(double amount)
 {
     std::cout << "Checking Withdraw." << std::endl;
 }
+
+void Checking::deposit(double amount)
+{
+    std::cout << "Checking Deposit." << std::endl;
+}

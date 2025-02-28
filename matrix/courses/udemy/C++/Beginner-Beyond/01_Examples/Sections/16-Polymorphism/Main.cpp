@@ -15,17 +15,14 @@ int main()
 {
     cout << "\n======= Pointers =======\n";
 
-    Account* pt1 = new Account();
     Account* pt2 = new Checking();
     Account* pt3 = new Savings();
     Account* pt4 = new Trust();
 
-    pt1->withdraw(1000);
     pt2->withdraw(1000);
     pt3->withdraw(1000);
     pt4->withdraw(1000);
 
-    delete pt1;
     delete pt2;
     delete pt3;
     delete pt4;
@@ -34,9 +31,6 @@ int main()
 
     cout << "\n======= References =======\n";
 
-    Account a;
-    Account& aRef = a;
-    aRef.withdraw(1000); // calls Account::withdraw
 
     cout << endl;
 
@@ -46,12 +40,10 @@ int main()
 
     cout << endl;
 
-    Account a1;
     Savings a2;
     Checking a3;
     Trust a4;
 
-    withdrawl(a1, 1000); // Account::withdraw
     withdrawl(a2, 2000); // Savings::withdraw
     withdrawl(a3, 3000); // Checking::withdraw
     withdrawl(a4, 4000); // Trust::withdraw
