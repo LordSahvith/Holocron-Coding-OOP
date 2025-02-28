@@ -5,6 +5,6 @@
 class Checking : public Account
 {
   public:
-    virtual ~Checking();
-    virtual void withdraw(double amount);
+    virtual ~Checking() override;
+    virtual void withdraw(double amount) override;
 };
