@@ -3,6 +3,7 @@
 #include "Savings.h"
 #include "Trust.h"
 #include "Checking.h"
+#include "Dog.h"
 
 using namespace std;
 
@@ -78,7 +79,11 @@ int main()
     Account* printable = new Savings();
     cout << *printable << endl;
 
+    Dog* Maui = new Dog();
+    cout << *Maui << endl;
+
     delete printable;
+    delete Maui;
 
     return 0;
 }
