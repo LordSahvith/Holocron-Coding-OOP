@@ -75,6 +75,11 @@ int main()
 
     cout << endl;
 
+    Account* printable = new Savings();
+    cout << *printable << endl;
+
+    delete printable;
+
     return 0;
 }
 
