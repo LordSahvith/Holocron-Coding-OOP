@@ -1,9 +1,12 @@
 // Blackjack
 // Classic Casino Card Game
-
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <ctime>
 #include "Game.h"
 #include "Card.h"
-#include <iostream>
 
 using std::cin;
 using std::cout;
