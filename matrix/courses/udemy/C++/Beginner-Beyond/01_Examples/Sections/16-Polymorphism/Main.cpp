@@ -5,9 +5,16 @@
 
 using namespace std;
 
+void withdrawl(Account& account, double amount)
+{
+    account.withdraw(amount);
+    cout << endl;
+}
+
 int main()
 {
     cout << "\n======= Pointers =======\n";
+
     Account* pt1 = new Account();
     Account* pt2 = new Checking();
     Account* pt3 = new Savings();
@@ -22,6 +29,32 @@ int main()
     delete pt2;
     delete pt3;
     delete pt4;
+
+    cout << endl;
+
+    cout << "\n======= References =======\n";
+
+    Account a;
+    Account& aRef = a;
+    aRef.withdraw(1000); // calls Account::withdraw
+
+    cout << endl;
+
+    Trust t;
+    Account& tRef = t;
+    tRef.withdraw(1000); // calls Trust::withdraw
+
+    cout << endl;
+
+    Account a1;
+    Savings a2;
+    Checking a3;
+    Trust a4;
+
+    withdrawl(a1, 1000); // Account::withdraw
+    withdrawl(a2, 2000); // Savings::withdraw
+    withdrawl(a3, 3000); // Checking::withdraw
+    withdrawl(a4, 4000); // Trust::withdraw
 
     return 0;
 }
