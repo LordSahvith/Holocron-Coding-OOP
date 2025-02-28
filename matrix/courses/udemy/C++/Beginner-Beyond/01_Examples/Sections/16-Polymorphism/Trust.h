@@ -5,5 +5,6 @@
 class Trust : public Account
 {
   public:
+    virtual ~Trust();
     virtual void withdraw(double amount);
 };

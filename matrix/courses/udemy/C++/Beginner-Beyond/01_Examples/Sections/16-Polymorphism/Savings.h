@@ -5,5 +5,6 @@
 class Savings : public Account
 {
   public:
+    virtual ~Savings();
     virtual void withdraw(double amount);
 };
