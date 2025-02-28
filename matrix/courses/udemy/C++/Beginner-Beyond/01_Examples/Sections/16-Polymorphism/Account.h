@@ -1,3 +1,4 @@
+// Account Abstract Class
 #pragma once
 
 #include <string>
