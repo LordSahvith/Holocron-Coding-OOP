@@ -6,11 +6,8 @@
 
 using namespace std;
 
-void withdrawl(Account& account, double amount)
-{
-    account.withdraw(amount);
-    cout << endl;
-}
+void withdrawl(Account& account, double amount);
+std::ostream& operator<<(std::ostream& os, const I_Printable& obj);
 
 int main()
 {
@@ -74,5 +71,21 @@ int main()
     delete account3;
     cout << endl;
 
+    cout << "\n======= Polymorphism w/Overloaded Operator =======\n";
+
+    cout << endl;
+
     return 0;
+}
+
+void withdrawl(Account& account, double amount)
+{
+    account.withdraw(amount);
+    cout << endl;
+}
+
+std::ostream& operator<<(std::ostream& os, const I_Printable& obj)
+{
+    obj.print(os); // uses polymorphism to with the friend to display correct message
+    return os;
 }

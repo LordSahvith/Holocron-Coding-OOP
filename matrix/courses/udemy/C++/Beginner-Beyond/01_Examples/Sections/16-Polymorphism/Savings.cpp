@@ -15,3 +15,8 @@ void Savings::deposit(double amount)
 {
     std::cout << "Savings Deposit." << std::endl;
 }
+
+void Savings::print(std::ostream& os) const
+{
+    os << "Savings Display.";
+}

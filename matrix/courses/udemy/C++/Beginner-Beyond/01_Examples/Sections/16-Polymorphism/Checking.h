@@ -8,4 +8,6 @@ class Checking : public Account
     virtual ~Checking() override;
     virtual void withdraw(double amount) override;
     virtual void deposit(double) override;
+
+    virtual void print(std::ostream& os) const override;
 };

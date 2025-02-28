@@ -15,3 +15,8 @@ void Checking::deposit(double amount)
 {
     std::cout << "Checking Deposit." << std::endl;
 }
+
+void Checking::print(std::ostream& os) const
+{
+    os << "Checking Display.";
+}

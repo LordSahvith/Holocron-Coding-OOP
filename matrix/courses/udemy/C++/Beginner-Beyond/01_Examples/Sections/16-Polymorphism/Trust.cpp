@@ -15,3 +15,8 @@ void Trust::deposit(double amount)
 {
     std::cout << "Trust Deposit." << std::endl;
 }
+
+void Trust::print(std::ostream& os) const
+{
+    os << "Trust Display.";
+}
