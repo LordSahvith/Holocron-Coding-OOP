@@ -1,45 +1,43 @@
 #include "../../00_std_lib_facilities.h"
 
+struct Reading
+{
+    int hour;
+    double temperature;
+};
+
 int main()
 {
-    ifstream script{"../TextFile.txt"};
+    ifstream tempsList{"temps.txt"};
+    ofstream tempsOutList{"temps-out.txt"};
 
-    if (!script)
-    {
-        cerr << "Problem opening file." << endl;
+    if (!tempsList)
         return 0;
-    }
 
-    cout << "File Opened." << endl;
-
-    ofstream outScript{"../NewTextFile.txt"};
-
-    if (!outScript)
-    {
-        cerr << "Problem opening file." << endl;
+    if (!tempsOutList)
         return 0;
-    }
 
-    cout << "File Opened." << endl;
+    vector<Reading> temps;
+    int hour;
+    double temperature;
 
-    string word;
-    vector<string> words;
-
-    while (script >> word)
+    while (tempsList >> hour >> temperature)
     {
-        words.push_back(word);
+        if (hour < 0 || 23 < hour)
+            break;
+        temps.push_back(Reading{hour, temperature});
     }
 
-    script.close();
-    cout << "File Closed." << endl;
-
-    for (string word : words)
+    for (auto temp : temps)
     {
-        outScript << word;
-    }
+        // write to terminal
+        cout << "hour: " << temp.hour << endl;
+        cout << "temperature: " << temp.temperature << endl;
 
-    outScript.close();
-    cout << "File Closed." << endl;
+        // write to file
+        tempsOutList << "hour: " << temp.hour << endl;
+        tempsOutList << "temperature: " << temp.temperature << endl;
+    }
 
     return 0;
 }
