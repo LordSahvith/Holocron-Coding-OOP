@@ -9,11 +9,10 @@ struct Reading
 int main()
 {
     ifstream tempsList{"temps.txt"};
-    ofstream tempsOutList{"temps-out.txt"};
-
     if (!tempsList)
         return 0;
 
+    ofstream tempsOutList{"temps-out.txt"};
     if (!tempsOutList)
         return 0;
 
@@ -31,12 +30,12 @@ int main()
     for (auto temp : temps)
     {
         // write to terminal
-        cout << "hour: " << temp.hour << endl;
-        cout << "temperature: " << temp.temperature << endl;
+        cout << setw(15) << left << "hour: " << temp.hour << endl;
+        cout << setw(15) << left << "temperature: " << temp.temperature << endl;
 
         // write to file
-        tempsOutList << "hour: " << temp.hour << endl;
-        tempsOutList << "temperature: " << temp.temperature << endl;
+        tempsOutList << setw(15) << left << "hour: " << temp.hour << endl;
+        tempsOutList << setw(15) << left << "temperature: " << temp.temperature << endl;
     }
 
     return 0;

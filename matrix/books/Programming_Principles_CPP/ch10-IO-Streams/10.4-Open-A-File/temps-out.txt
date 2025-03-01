@@ -1,8 +1,8 @@
-hour: 0
-temperature: 60.7
-hour: 1
-temperature: 60.6
-hour: 2
-temperature: 60.3
-hour: 3
-temperature: 59.22
+hour:          0
+temperature:   60.7
+hour:          1
+temperature:   60.6
+hour:          2
+temperature:   60.3
+hour:          3
+temperature:   59.22
