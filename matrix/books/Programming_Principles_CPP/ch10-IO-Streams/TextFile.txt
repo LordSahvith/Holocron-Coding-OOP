@@ -1,0 +1,29 @@
+Alric
+"It's been a long while since I’ve seen you in these parts, Conner. You mostly keep to the road these days?"
+
+Conner
+"Ah, you know me too well, Alric. Can’t resist the call of adventure. Just back from a scouting mission for the Lord to the north. The stormcloaks have been restless."
+
+Alric
+"Stormcloaks, you say? They’ve always been a thorn in our side. What’s the word on their movements?"
+
+Conner
+"Rumors of a coalition forming. If they’re actively gathering more fighters, we might have trouble on our hands."
+
+Alric
+"At least it’s not quiet, right? But it feels more dangerous these days. What are you planning? More scouting?"
+
+Conner
+"I'd rather not, but the Lord wants eyes on them. I’ll have to find a few more trustworthy souls to join me, maybe a mage or two."
+
+Alric
+"Terrible idea! You know they tend to get lost in their books when you need them most. Have you thought of taking a bard? They do have a knack for distractions."
+
+Conner
+"Good point! Although I worry about what story they’ll bring back—I can’t handle another saga about how tough the road was! But... perhaps their charm wouldn’t hurt in the midst of conflict."
+
+Alric
+"Hah! Well, better to have an entertaining escape than empty pockets. Here’s hoping you won’t need the bard. Let's enjoy tonight before the adventure calls you away again."
+
+Conner
+"I'll drink to that. A night of revelry before the shadows come creeping back."
