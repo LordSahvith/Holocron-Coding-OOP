@@ -28,6 +28,7 @@ struct Shape
 };
 
 void PlayerMovement(Shape& shapeRef);
+bool Collision(Shape& shapeRef1, Shape& shapeRef2);
 
 int main()
 {
@@ -38,7 +39,7 @@ int main()
     SetTargetFPS(60);
 
     // Circle
-    Shape circle{(GetScreenWidth() / 2), (GetScreenHeight() / 2), 25, 25, 5, RED};
+    Shape circle{0, 0, 25, 25, 5, RED};
 
     // Rectangle
     Shape rectangle{(GetScreenWidth() / 2), (GetScreenHeight() / 2), 50, 50, 10, RED};
@@ -63,10 +64,15 @@ int main()
                 rectangle.moveSpeed = -rectangle.moveSpeed;
             }
 
-            if (circle.GetRightEdge(circle.width) == GetScreenWidth())
+            if (Collision(circle, rectangle))
             {
                 gameOver = true;
             }
+
+            // if (circle.GetRightEdge(circle.width) == GetScreenWidth())
+            // {
+            //     gameOver = true;
+            // }
         }
         else
         {
@@ -100,4 +106,25 @@ void PlayerMovement(Shape& shapeRef)
     {
         shapeRef.yPos += shapeRef.moveSpeed;
     }
+}
+
+bool Collision(Shape& shapeRef1, Shape& shapeRef2)
+{
+    int shape1Top = shapeRef1.GetTopEdge(shapeRef1.height);
+    int shape1Right = shapeRef1.GetRightEdge(shapeRef1.width);
+    int shape1Bottom = shapeRef1.GetBottomEdge(shapeRef1.height);
+    int shape1Left = shapeRef1.GetLeftEdge(shapeRef1.height);
+
+    int shape2Top = shapeRef2.GetTopEdge(shapeRef2.height);
+    int shape2Right = shapeRef2.GetRightEdge(shapeRef2.width);
+    int shape2Bottom = shapeRef2.GetBottomEdge(shapeRef2.height);
+    int shape2Left = shapeRef2.GetLeftEdge(shapeRef2.height);
+
+    if (shape2Bottom >= shape1Bottom && shape2Top <= shape1Top && shape2Left <= shape1Left &&
+        shape2Right >= shape1Right)
+    {
+        return true;
+    }
+
+    return false;
 }
