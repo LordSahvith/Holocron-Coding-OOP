@@ -32,40 +32,45 @@ void PlayerMovement(Shape& shapeRef);
 int main()
 {
     // Window
-    int windowWidth{500};
-    int windowHeight{400};
-    InitWindow(windowWidth, windowHeight, "Axe Game");
+    InitWindow(500, 400, "Axe Game");
 
     // Game Setup
     SetTargetFPS(60);
 
-    // Circle Coordinates
-    int circleX{windowWidth / 2};
-    int circleY{windowHeight / 2};
-    int circleRadius{25};
-    Shape circle{circleX, circleY, circleRadius, circleRadius, 5, RED};
+    // Circle
+    Shape circle{(GetScreenWidth() / 2), (GetScreenHeight() / 2), 25, 25, 5, RED};
 
-    // Rectangle Coordinates
-    int rectX{windowWidth / 2};
-    int rectY{windowHeight / 2};
-    int rectWidth{50};
-    int rectHeight{50};
-    Shape rectangle{rectX, rectY, rectWidth, rectHeight, 10, RED};
+    // Rectangle
+    Shape rectangle{(GetScreenWidth() / 2), (GetScreenHeight() / 2), 50, 50, 10, RED};
 
+    bool gameOver{false};
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        DrawCircle(circle.xPos, circle.yPos, circle.width, RED);
-        DrawRectangle(rectangle.xPos, rectangle.yPos, rectangle.width, rectangle.height, BLUE);
-
-        PlayerMovement(circle);
-
-        rectangle.yPos += rectangle.moveSpeed;
-        if (rectangle.GetBottomEdge(rectangle.height) >= GetScreenHeight() || rectangle.GetTopEdge(0) <= 0)
+        if (!gameOver)
         {
-            rectangle.moveSpeed = -rectangle.moveSpeed;
+
+            DrawCircle(circle.xPos, circle.yPos, circle.width, RED);
+            DrawRectangle(rectangle.xPos, rectangle.yPos, rectangle.width, rectangle.height, BLUE);
+
+            PlayerMovement(circle);
+
+            rectangle.yPos += rectangle.moveSpeed;
+            if (rectangle.GetBottomEdge(rectangle.height) >= GetScreenHeight() || rectangle.GetTopEdge(0) <= 0)
+            {
+                rectangle.moveSpeed = -rectangle.moveSpeed;
+            }
+
+            if (circle.GetRightEdge(circle.width) == GetScreenWidth())
+            {
+                gameOver = true;
+            }
+        }
+        else
+        {
+            DrawText("Game Over!", (GetScreenWidth() / 2), (GetScreenHeight() / 2), 20, RED);
         }
 
         EndDrawing();
