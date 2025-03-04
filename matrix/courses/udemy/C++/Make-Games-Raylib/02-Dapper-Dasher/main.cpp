@@ -7,7 +7,7 @@ struct Actor
     Rectangle rectangle;
     Vector2 position;
     int velocity;
-    const float updateTime{1.0 / 12.0};
+    float updateTime;
     float runningTime{0};
     int frame{0};
 };
@@ -22,7 +22,7 @@ struct Scarfy : public Actor
 
 struct Nebula : public Actor
 {
-    Nebula();
+    Nebula(int xPos, float time);
 };
 
 void HandleGravity(Scarfy& scarfyRef, const int& gravity, float& deltaTime);
@@ -40,8 +40,9 @@ int main()
     // setup Frames Per Second (FPS)
     SetTargetFPS(60);
 
-    // Create Nebula
-    Nebula nebula;
+    // Create Nebula (startPosX, updateTime)
+    Nebula nebula(GetScreenWidth(), (1.0 / 12.0));
+    Nebula nebula2(GetScreenWidth() + 300, (1.0 / 16.0));
 
     // Create Character
     Scarfy scarfy;
@@ -49,13 +50,16 @@ int main()
     // acceleration due to gravity (pixels/sec) / sec
     const int gravity{1'000};
 
+    // delta time (time since last frame)
+    float deltaTime{GetFrameTime()};
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(BLACK);
 
         // delta time (time since last frame)
-        float deltaTime{GetFrameTime()};
+        deltaTime = GetFrameTime();
 
         HandleGravity(scarfy, gravity, deltaTime);
 
@@ -64,6 +68,10 @@ int main()
         // update nebula position
         UpdatePosition(nebula.position.x, nebula.velocity, deltaTime);
         HandleAnimation(nebula, deltaTime);
+
+        // update nebula position
+        UpdatePosition(nebula2.position.x, nebula2.velocity, deltaTime);
+        HandleAnimation(nebula2, deltaTime);
 
         // update character position
         UpdatePosition(scarfy.position.y, scarfy.velocity, deltaTime);
@@ -74,25 +82,28 @@ int main()
         }
 
         DrawTextureRec(nebula.sprites, nebula.rectangle, nebula.position, WHITE);
+        DrawTextureRec(nebula2.sprites, nebula2.rectangle, nebula2.position, WHITE);
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
 
         EndDrawing();
     }
 
     UnloadTexture(nebula.sprites);
+    UnloadTexture(nebula2.sprites);
     UnloadTexture(scarfy.sprites);
     CloseWindow();
 }
 
-Nebula::Nebula()
+Nebula::Nebula(int xPos, float time)
 {
     spriteCount = 8;
     sprites = LoadTexture("textures/12_nebula_spritesheet.png");
     // rectangle = (x, y, width, height);
     rectangle = {0, 0, float(sprites.width / spriteCount), float(sprites.height / spriteCount)};
-    position = {float(GetScreenWidth()),                      // set outside rightside of screen
+    position = {float(xPos),                                  // set outside rightside of screen
                 float(GetScreenHeight() - rectangle.height)}; // set on ground
     velocity = -200;                                          // pixels per second
+    updateTime = time;
 }
 
 Scarfy::Scarfy()
@@ -104,6 +115,7 @@ Scarfy::Scarfy()
     position = {float(GetScreenWidth() / 2 - rectangle.width / 2), // center in x coordinates
                 float(GetScreenHeight() - rectangle.height)};      // set on "ground"
     velocity = 0;
+    updateTime = 1.0 / 12.0;
     jumpVelocity = -600; // pixels per second
     isInAir = false;
 }
