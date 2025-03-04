@@ -1,5 +1,15 @@
 #include "raylib.h"
 
+struct Scarfy
+{
+    Texture2D sprites;
+    Rectangle rectangle;
+    Vector2 position;
+    int velocity;
+    int jumpVelocity;
+    bool isInAir;
+};
+
 int main()
 {
     // setup window
@@ -13,13 +23,18 @@ int main()
     // acceleration due to gravity (pixels/frame) / frame
     const int gravity{1};
 
-    // rectangle
-    const int width{50};
-    const int height{80};
-    int yPos{screenHeight - height};
-    int velocity{10};
-    int jumpVelocity{-20};
-    bool isInAir{false};
+    // get character sprite
+    Scarfy scarfy;
+    scarfy.sprites = LoadTexture("textures/scarfy.png");
+    scarfy.rectangle.width = scarfy.sprites.width / 6; // there are 6 sprites
+    scarfy.rectangle.height = scarfy.sprites.height;
+    scarfy.rectangle.x = 0;
+    scarfy.rectangle.y = 0;
+    scarfy.position.x = screenWidth / 2 - scarfy.rectangle.width / 2; // center in x coordinates
+    scarfy.position.y = screenHeight - scarfy.rectangle.height;       // set on "ground"
+    scarfy.velocity = 10;
+    scarfy.jumpVelocity = -20;
+    scarfy.isInAir = false;
 
     while (!WindowShouldClose())
     {
@@ -27,32 +42,33 @@ int main()
         ClearBackground(BLACK);
 
         // perform ground check
-        if (yPos >= screenHeight - height)
+        if (scarfy.position.y >= screenHeight - scarfy.rectangle.height)
         {
             // on ground
-            velocity = 0;
-            isInAir = false;
+            scarfy.velocity = 0;
+            scarfy.isInAir = false;
         }
         else
         {
             // in air
-            velocity += gravity;
-            isInAir = true;
+            scarfy.velocity += gravity;
+            scarfy.isInAir = true;
         }
 
         // Jump
-        if (IsKeyPressed(KEY_SPACE) && !isInAir)
+        if (IsKeyPressed(KEY_SPACE) && !scarfy.isInAir)
         {
-            velocity += jumpVelocity;
+            scarfy.velocity += scarfy.jumpVelocity;
         }
 
         // update position
-        yPos += velocity;
+        scarfy.position.y += scarfy.velocity;
 
-        DrawRectangle(screenWidth / 2, yPos, width, height, RED);
+        DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
 
         EndDrawing();
     }
 
+    UnloadTexture(scarfy.sprites);
     CloseWindow();
 }
