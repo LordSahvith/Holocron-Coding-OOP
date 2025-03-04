@@ -1,32 +1,33 @@
 #include "raylib.h"
 
-struct Scarfy
+struct Actor
 {
     int spriteCount;
     Texture2D sprites;
     Rectangle rectangle;
     Vector2 position;
     int velocity;
+    const float updateTime{1.0 / 12.0};
+    float runningTime{0};
+    int frame{0};
+};
+
+struct Scarfy : public Actor
+{
     int jumpVelocity;
     bool isInAir;
 
     Scarfy();
 };
 
-struct Nebula
+struct Nebula : public Actor
 {
-    int spriteCount;
-    Texture2D sprites;
-    Rectangle rectangle;
-    Vector2 position;
-    int velocity;
-
     Nebula();
 };
 
 void HandleGravity(Scarfy& scarfyRef, const int& gravity, float& deltaTime);
 void HandleJump(Scarfy& scarfyRef);
-void HandleAnimation(Scarfy& scarfyRef, float& runningTime, const float& updateTime, float& deltaTime, int& frame);
+void HandleAnimation(Actor& actorRef, float& deltaTime);
 void UpdatePosition(float& position, int& velocity, float& deltaTime);
 
 int main()
@@ -48,13 +49,6 @@ int main()
     // acceleration due to gravity (pixels/sec) / sec
     const int gravity{1'000};
 
-    // Amount of time to update animation
-    const float updateTime{1.0 / 12.0};
-    float runningTime{0};
-
-    // animation frame
-    int frame{0};
-
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -69,13 +63,14 @@ int main()
 
         // update nebula position
         UpdatePosition(nebula.position.x, nebula.velocity, deltaTime);
+        HandleAnimation(nebula, deltaTime);
 
         // update character position
         UpdatePosition(scarfy.position.y, scarfy.velocity, deltaTime);
 
         if (!scarfy.isInAir)
         {
-            HandleAnimation(scarfy, runningTime, updateTime, deltaTime, frame);
+            HandleAnimation(scarfy, deltaTime);
         }
 
         DrawTextureRec(nebula.sprites, nebula.rectangle, nebula.position, WHITE);
@@ -97,7 +92,7 @@ Nebula::Nebula()
     rectangle = {0, 0, float(sprites.width / spriteCount), float(sprites.height / spriteCount)};
     position = {float(GetScreenWidth()),                      // set outside rightside of screen
                 float(GetScreenHeight() - rectangle.height)}; // set on ground
-    velocity = -600;                                          // pixels per second
+    velocity = -200;                                          // pixels per second
 }
 
 Scarfy::Scarfy()
@@ -139,22 +134,22 @@ void HandleJump(Scarfy& scarfyRef)
     }
 }
 
-void HandleAnimation(Scarfy& scarfyRef, float& runningTime, const float& updateTime, float& deltaTime, int& frame)
+void HandleAnimation(Actor& actorRef, float& deltaTime)
 {
-    runningTime += deltaTime;
+    actorRef.runningTime += deltaTime;
 
-    if (runningTime >= updateTime)
+    if (actorRef.runningTime >= actorRef.updateTime)
     {
-        runningTime = 0.0;
+        actorRef.runningTime = 0.0;
 
         // update animation frame
-        scarfyRef.rectangle.x = frame * scarfyRef.rectangle.width;
-        frame++;
+        actorRef.rectangle.x = actorRef.frame * actorRef.rectangle.width;
+        actorRef.frame++;
 
         // reset frame if end of sprites
-        if (frame > scarfyRef.spriteCount - 1)
+        if (actorRef.frame > actorRef.spriteCount - 1)
         {
-            frame = 0;
+            actorRef.frame = 0;
         }
     }
 }
