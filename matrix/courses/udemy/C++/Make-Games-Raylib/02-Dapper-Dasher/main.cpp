@@ -34,23 +34,28 @@ void UpdatePosition(float& position, int& velocity, float& deltaTime);
 int main()
 {
     // setup window
-    const int windowDimensions[]{750, 500};
+    const int windowDimensions[]{768, 576};
     InitWindow(windowDimensions[0], windowDimensions[1], "Dapper Dash");
 
     // setup Frames Per Second (FPS)
     SetTargetFPS(60);
 
+    // Setup Nebulae
     const int nebulaeCount{10};
-    Nebula nebulaeArr[nebulaeCount]{};
+    Nebula nebulae[nebulaeCount]{};
 
     for (int i = 0; i < nebulaeCount; i++)
     {
-        nebulaeArr[i].position.x = GetScreenWidth() + (GetRandomValue(300, 350) * i);
-        nebulaeArr[i].updateTime = 1.0 / GetRandomValue(12.0, 20.0);
+        int rand = GetRandomValue(300, 350) * i;
+        nebulae[i].position.x = GetScreenWidth() + (rand);
+        nebulae[i].updateTime = 1.0 / GetRandomValue(12.0, 20.0);
     }
 
     // Create Character
     Scarfy scarfy;
+
+    Texture2D background = LoadTexture("textures/far-buildings.png");
+    float bgX{0};
 
     // acceleration due to gravity (pixels/sec) / sec
     const int gravity{1'000};
@@ -63,19 +68,33 @@ int main()
         BeginDrawing();
         ClearBackground(BLACK);
 
+        // reset background image
+        bgX -= 20 * deltaTime;
+
+        if (bgX <= -background.width * 2)
+        {
+            bgX = 0.0;
+        }
+
+        // draw the background
+        Vector2 background1Position = {bgX, 0.0};
+        DrawTextureEx(background, background1Position, 0.0, 3.0, WHITE);
+        Vector2 background2Position = {bgX + background.width * 2, 0.0};
+        DrawTextureEx(background, background2Position, 0.0, 3.0, WHITE);
+
         // delta time (time since last frame)
         deltaTime = GetFrameTime();
 
+        // Update and Animate each Nebulae
         for (int i = 0; i < nebulaeCount; i++)
         {
-            UpdatePosition(nebulaeArr[i].position.x, nebulaeArr[i].velocity, deltaTime);
-            HandleAnimation(nebulaeArr[i], deltaTime); // pass value as reference
+            UpdatePosition(nebulae[i].position.x, nebulae[i].velocity, deltaTime);
+            HandleAnimation(nebulae[i], deltaTime); // pass value as reference
         }
 
         // Scarfy Functionality
         HandleGravity(scarfy, gravity, deltaTime);
         HandleJump(scarfy);
-        // update character position
         UpdatePosition(scarfy.position.y, scarfy.velocity, deltaTime);
 
         if (!scarfy.isInAir)
@@ -83,10 +102,10 @@ int main()
             HandleAnimation(scarfy, deltaTime);
         }
 
-        // Loop and draw each nebula
+        // Loop and draw each nebulae
         for (int i = 0; i < nebulaeCount; i++)
         {
-            DrawTextureRec(nebulaeArr[i].sprites, nebulaeArr[i].rectangle, nebulaeArr[i].position, WHITE);
+            DrawTextureRec(nebulae[i].sprites, nebulae[i].rectangle, nebulae[i].position, WHITE);
         }
 
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
@@ -97,10 +116,11 @@ int main()
     // loop and unload each nebula
     for (int i = 0; i < nebulaeCount; i++)
     {
-        UnloadTexture(nebulaeArr[i].sprites);
+        UnloadTexture(nebulae[i].sprites);
     }
 
     UnloadTexture(scarfy.sprites);
+    UnloadTexture(background);
     CloseWindow();
 }
 
