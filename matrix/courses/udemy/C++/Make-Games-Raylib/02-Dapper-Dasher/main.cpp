@@ -27,6 +27,7 @@ struct Nebula
 void HandleGravity(Scarfy& scarfyRef, const int& gravity, float& deltaTime);
 void HandleJump(Scarfy& scarfyRef);
 void HandleAnimation(Scarfy& scarfyRef, float& runningTime, const float& updateTime, float& deltaTime, int& frame);
+void UpdatePosition(float& position, int& velocity, float& deltaTime);
 
 int main()
 {
@@ -66,10 +67,16 @@ int main()
 
         HandleJump(scarfy);
 
-        // update position
-        scarfy.position.y += scarfy.velocity * deltaTime;
+        // update nebula position
+        UpdatePosition(nebula.position.x, nebula.velocity, deltaTime);
 
-        HandleAnimation(scarfy, runningTime, updateTime, deltaTime, frame);
+        // update character position
+        UpdatePosition(scarfy.position.y, scarfy.velocity, deltaTime);
+
+        if (!scarfy.isInAir)
+        {
+            HandleAnimation(scarfy, runningTime, updateTime, deltaTime, frame);
+        }
 
         DrawTextureRec(nebula.sprites, nebula.rectangle, nebula.position, WHITE);
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
@@ -86,25 +93,21 @@ Nebula::Nebula()
 {
     spriteCount = 8;
     sprites = LoadTexture("textures/12_nebula_spritesheet.png");
-    rectangle.width = sprites.width / spriteCount;
-    rectangle.height = sprites.height / spriteCount;
-    rectangle.x = 0;
-    rectangle.y = 0;
-    position.x = GetScreenWidth() / 2 - rectangle.width / 2; // center in x coordinates
-    position.y = GetScreenHeight() - rectangle.height;       // set on "ground"
-    velocity = 0;
+    // rectangle = (x, y, width, height);
+    rectangle = {0, 0, float(sprites.width / spriteCount), float(sprites.height / spriteCount)};
+    position = {float(GetScreenWidth()),                      // set outside rightside of screen
+                float(GetScreenHeight() - rectangle.height)}; // set on ground
+    velocity = -600;                                          // pixels per second
 }
 
 Scarfy::Scarfy()
 {
     spriteCount = 6;
     sprites = LoadTexture("textures/scarfy.png");
-    rectangle.width = sprites.width / spriteCount;
-    rectangle.height = sprites.height;
-    rectangle.x = 0;
-    rectangle.y = 0;
-    position.x = GetScreenWidth() / 2 - rectangle.width / 2; // center in x coordinates
-    position.y = GetScreenHeight() - rectangle.height;       // set on "ground"
+    // rectangle = (x, y, width, height);
+    rectangle = {0, 0, float(sprites.width / spriteCount), float(sprites.height)};
+    position = {float(GetScreenWidth() / 2 - rectangle.width / 2), // center in x coordinates
+                float(GetScreenHeight() - rectangle.height)};      // set on "ground"
     velocity = 0;
     jumpVelocity = -600; // pixels per second
     isInAir = false;
@@ -154,4 +157,10 @@ void HandleAnimation(Scarfy& scarfyRef, float& runningTime, const float& updateT
             frame = 0;
         }
     }
+}
+
+void UpdatePosition(float& position, int& velocity, float& deltaTime)
+{
+    // update position
+    position += velocity * deltaTime;
 }
