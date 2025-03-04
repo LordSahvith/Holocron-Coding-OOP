@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <vector>
 
 struct Actor
 {
@@ -33,9 +34,8 @@ void UpdatePosition(float& position, int& velocity, float& deltaTime);
 int main()
 {
     // setup window
-    const int screenWidth{750};
-    const int screenHeight{500};
-    InitWindow(screenWidth, screenHeight, "Dapper Dash");
+    const int windowDimensions[]{750, 500};
+    InitWindow(windowDimensions[0], windowDimensions[1], "Dapper Dash");
 
     // setup Frames Per Second (FPS)
     SetTargetFPS(60);
@@ -43,6 +43,10 @@ int main()
     // Create Nebula (startPosX, updateTime)
     Nebula nebula(GetScreenWidth(), (1.0 / 12.0));
     Nebula nebula2(GetScreenWidth() + 300, (1.0 / 16.0));
+
+    std::vector<Nebula*> nebulae{};
+    nebulae.push_back(&nebula);
+    nebulae.push_back(&nebula2);
 
     // Create Character
     Scarfy scarfy;
@@ -61,17 +65,23 @@ int main()
         // delta time (time since last frame)
         deltaTime = GetFrameTime();
 
+        for (Nebula* neb : nebulae)
+        {
+            UpdatePosition(neb->position.x, neb->velocity, deltaTime);
+            HandleAnimation(*neb, deltaTime);
+        }
+
+        // // update nebula position
+        // UpdatePosition(nebula.position.x, nebula.velocity, deltaTime);
+        // HandleAnimation(nebula, deltaTime);
+
+        // // update nebula position
+        // UpdatePosition(nebula2.position.x, nebula2.velocity, deltaTime);
+        // HandleAnimation(nebula2, deltaTime);
+
+        // Scarfy Functionality
         HandleGravity(scarfy, gravity, deltaTime);
-
         HandleJump(scarfy);
-
-        // update nebula position
-        UpdatePosition(nebula.position.x, nebula.velocity, deltaTime);
-        HandleAnimation(nebula, deltaTime);
-
-        // update nebula position
-        UpdatePosition(nebula2.position.x, nebula2.velocity, deltaTime);
-        HandleAnimation(nebula2, deltaTime);
 
         // update character position
         UpdatePosition(scarfy.position.y, scarfy.velocity, deltaTime);
@@ -81,8 +91,8 @@ int main()
             HandleAnimation(scarfy, deltaTime);
         }
 
-        DrawTextureRec(nebula.sprites, nebula.rectangle, nebula.position, WHITE);
-        DrawTextureRec(nebula2.sprites, nebula2.rectangle, nebula2.position, WHITE);
+        DrawTextureRec(nebulae[0]->sprites, nebulae[0]->rectangle, nebulae[0]->position, WHITE);
+        DrawTextureRec(nebulae[1]->sprites, nebulae[1]->rectangle, nebulae[1]->position, RED);
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
 
         EndDrawing();
