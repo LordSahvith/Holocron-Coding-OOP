@@ -18,6 +18,8 @@ int main()
     const int height{80};
     int yPos{screenHeight - height};
     int velocity{10};
+    int jumpVelocity{-20};
+    bool isInAir{false};
 
     while (!WindowShouldClose())
     {
@@ -27,16 +29,21 @@ int main()
         // perform ground check
         if (yPos >= screenHeight - height)
         {
+            // on ground
             velocity = 0;
+            isInAir = false;
         }
         else
         {
+            // in air
             velocity += gravity;
+            isInAir = true;
         }
 
-        if (IsKeyPressed(KEY_SPACE))
+        // Jump
+        if (IsKeyPressed(KEY_SPACE) && !isInAir)
         {
-            velocity -= 10;
+            velocity += jumpVelocity;
         }
 
         // update position
