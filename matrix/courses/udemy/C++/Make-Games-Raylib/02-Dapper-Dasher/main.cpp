@@ -20,8 +20,8 @@ int main()
     // setup Frames Per Second (FPS)
     SetTargetFPS(60);
 
-    // acceleration due to gravity (pixels/frame) / frame
-    const int gravity{1};
+    // acceleration due to gravity (pixels/sec) / sec
+    const int gravity{1'000};
 
     // get character sprite
     Scarfy scarfy;
@@ -32,14 +32,17 @@ int main()
     scarfy.rectangle.y = 0;
     scarfy.position.x = screenWidth / 2 - scarfy.rectangle.width / 2; // center in x coordinates
     scarfy.position.y = screenHeight - scarfy.rectangle.height;       // set on "ground"
-    scarfy.velocity = 10;
-    scarfy.jumpVelocity = -20;
+    scarfy.velocity = 0;
+    scarfy.jumpVelocity = -600; // pixels per second
     scarfy.isInAir = false;
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(BLACK);
+
+        // delta time (time since last frame)
+        float deltaTime{GetFrameTime()};
 
         // perform ground check
         if (scarfy.position.y >= screenHeight - scarfy.rectangle.height)
@@ -51,7 +54,7 @@ int main()
         else
         {
             // in air
-            scarfy.velocity += gravity;
+            scarfy.velocity += gravity * deltaTime;
             scarfy.isInAir = true;
         }
 
@@ -62,7 +65,7 @@ int main()
         }
 
         // update position
-        scarfy.position.y += scarfy.velocity;
+        scarfy.position.y += scarfy.velocity * deltaTime;
 
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
 
