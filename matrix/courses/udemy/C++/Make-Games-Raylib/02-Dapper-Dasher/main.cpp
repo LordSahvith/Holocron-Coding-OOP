@@ -23,7 +23,7 @@ struct Scarfy : public Actor
 
 struct Nebula : public Actor
 {
-    Nebula(int xPos, float time);
+    Nebula();
 };
 
 void HandleGravity(Scarfy& scarfyRef, const int& gravity, float& deltaTime);
@@ -40,13 +40,14 @@ int main()
     // setup Frames Per Second (FPS)
     SetTargetFPS(60);
 
-    // Create Nebula (startPosX, updateTime)
-    Nebula nebula(GetScreenWidth(), (1.0 / 12.0));
-    Nebula nebula2(GetScreenWidth() + 300, (1.0 / 16.0));
+    const int nebulaeCount{10};
+    Nebula nebulaeArr[nebulaeCount]{};
 
-    std::vector<Nebula*> nebulae{};
-    nebulae.push_back(&nebula);
-    nebulae.push_back(&nebula2);
+    for (int i = 0; i < nebulaeCount; i++)
+    {
+        nebulaeArr[i].position.x = GetScreenWidth() + (GetRandomValue(300, 350) * i);
+        nebulaeArr[i].updateTime = 1.0 / GetRandomValue(12.0, 20.0);
+    }
 
     // Create Character
     Scarfy scarfy;
@@ -65,24 +66,15 @@ int main()
         // delta time (time since last frame)
         deltaTime = GetFrameTime();
 
-        for (Nebula* neb : nebulae)
+        for (int i = 0; i < nebulaeCount; i++)
         {
-            UpdatePosition(neb->position.x, neb->velocity, deltaTime);
-            HandleAnimation(*neb, deltaTime);
+            UpdatePosition(nebulaeArr[i].position.x, nebulaeArr[i].velocity, deltaTime);
+            HandleAnimation(nebulaeArr[i], deltaTime); // pass value as reference
         }
-
-        // // update nebula position
-        // UpdatePosition(nebula.position.x, nebula.velocity, deltaTime);
-        // HandleAnimation(nebula, deltaTime);
-
-        // // update nebula position
-        // UpdatePosition(nebula2.position.x, nebula2.velocity, deltaTime);
-        // HandleAnimation(nebula2, deltaTime);
 
         // Scarfy Functionality
         HandleGravity(scarfy, gravity, deltaTime);
         HandleJump(scarfy);
-
         // update character position
         UpdatePosition(scarfy.position.y, scarfy.velocity, deltaTime);
 
@@ -91,29 +83,37 @@ int main()
             HandleAnimation(scarfy, deltaTime);
         }
 
-        DrawTextureRec(nebulae[0]->sprites, nebulae[0]->rectangle, nebulae[0]->position, WHITE);
-        DrawTextureRec(nebulae[1]->sprites, nebulae[1]->rectangle, nebulae[1]->position, RED);
+        // Loop and draw each nebula
+        for (int i = 0; i < nebulaeCount; i++)
+        {
+            DrawTextureRec(nebulaeArr[i].sprites, nebulaeArr[i].rectangle, nebulaeArr[i].position, WHITE);
+        }
+
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
 
         EndDrawing();
     }
 
-    UnloadTexture(nebula.sprites);
-    UnloadTexture(nebula2.sprites);
+    // loop and unload each nebula
+    for (int i = 0; i < nebulaeCount; i++)
+    {
+        UnloadTexture(nebulaeArr[i].sprites);
+    }
+
     UnloadTexture(scarfy.sprites);
     CloseWindow();
 }
 
-Nebula::Nebula(int xPos, float time)
+Nebula::Nebula()
 {
     spriteCount = 8;
     sprites = LoadTexture("textures/12_nebula_spritesheet.png");
     // rectangle = (x, y, width, height);
     rectangle = {0, 0, float(sprites.width / spriteCount), float(sprites.height / spriteCount)};
-    position = {float(xPos),                                  // set outside rightside of screen
+    position = {float(0),                                     // set outside rightside of screen
                 float(GetScreenHeight() - rectangle.height)}; // set on ground
     velocity = -200;                                          // pixels per second
-    updateTime = time;
+    updateTime = 0;
 }
 
 Scarfy::Scarfy()
