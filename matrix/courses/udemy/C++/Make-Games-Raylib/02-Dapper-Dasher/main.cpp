@@ -2,6 +2,7 @@
 
 struct Scarfy
 {
+    int spriteCount;
     Texture2D sprites;
     Rectangle rectangle;
     Vector2 position;
@@ -9,6 +10,11 @@ struct Scarfy
     int jumpVelocity;
     bool isInAir;
 };
+
+void SetupCharacter(Scarfy& scarfyRef);
+void HandleGravity(Scarfy& scarfyRef, const int& gravity, float& deltaTime);
+void HandleJump(Scarfy& scarfyRef);
+void HandleAnimation(Scarfy& scarfyRef, float& runningTime, const float& updateTime, float& deltaTime, int& frame);
 
 int main()
 {
@@ -23,18 +29,16 @@ int main()
     // acceleration due to gravity (pixels/sec) / sec
     const int gravity{1'000};
 
-    // get character sprite
+    // Amount of time to update animation
+    const float updateTime{1.0 / 12.0};
+    float runningTime{0};
+
+    // Setup Character
     Scarfy scarfy;
-    scarfy.sprites = LoadTexture("textures/scarfy.png");
-    scarfy.rectangle.width = scarfy.sprites.width / 6; // there are 6 sprites
-    scarfy.rectangle.height = scarfy.sprites.height;
-    scarfy.rectangle.x = 0;
-    scarfy.rectangle.y = 0;
-    scarfy.position.x = screenWidth / 2 - scarfy.rectangle.width / 2; // center in x coordinates
-    scarfy.position.y = screenHeight - scarfy.rectangle.height;       // set on "ground"
-    scarfy.velocity = 0;
-    scarfy.jumpVelocity = -600; // pixels per second
-    scarfy.isInAir = false;
+    SetupCharacter(scarfy);
+
+    // animation frame
+    int frame{0};
 
     while (!WindowShouldClose())
     {
@@ -44,28 +48,15 @@ int main()
         // delta time (time since last frame)
         float deltaTime{GetFrameTime()};
 
-        // perform ground check
-        if (scarfy.position.y >= screenHeight - scarfy.rectangle.height)
-        {
-            // on ground
-            scarfy.velocity = 0;
-            scarfy.isInAir = false;
-        }
-        else
-        {
-            // in air
-            scarfy.velocity += gravity * deltaTime;
-            scarfy.isInAir = true;
-        }
+        HandleGravity(scarfy, gravity, deltaTime);
 
-        // Jump
-        if (IsKeyPressed(KEY_SPACE) && !scarfy.isInAir)
-        {
-            scarfy.velocity += scarfy.jumpVelocity;
-        }
+        HandleJump(scarfy);
 
         // update position
         scarfy.position.y += scarfy.velocity * deltaTime;
+
+        runningTime += deltaTime;
+        HandleAnimation(scarfy, runningTime, updateTime, deltaTime, frame);
 
         DrawTextureRec(scarfy.sprites, scarfy.rectangle, scarfy.position, WHITE);
 
@@ -74,4 +65,63 @@ int main()
 
     UnloadTexture(scarfy.sprites);
     CloseWindow();
+}
+
+void SetupCharacter(Scarfy& scarfyRef)
+{
+    scarfyRef.spriteCount = 6;
+    scarfyRef.sprites = LoadTexture("textures/scarfy.png");
+    scarfyRef.rectangle.width = scarfyRef.sprites.width / scarfyRef.spriteCount;
+    scarfyRef.rectangle.height = scarfyRef.sprites.height;
+    scarfyRef.rectangle.x = 0;
+    scarfyRef.rectangle.y = 0;
+    scarfyRef.position.x = GetScreenWidth() / 2 - scarfyRef.rectangle.width / 2; // center in x coordinates
+    scarfyRef.position.y = GetScreenHeight() - scarfyRef.rectangle.height;       // set on "ground"
+    scarfyRef.velocity = 0;
+    scarfyRef.jumpVelocity = -600; // pixels per second
+    scarfyRef.isInAir = false;
+}
+
+void HandleGravity(Scarfy& scarfyRef, const int& gravity, float& deltaTime)
+{
+    // perform ground check
+    if (scarfyRef.position.y >= GetScreenHeight() - scarfyRef.rectangle.height)
+    {
+        // on ground
+        scarfyRef.velocity = 0;
+        scarfyRef.isInAir = false;
+    }
+    else
+    {
+        // in air
+        scarfyRef.velocity += gravity * deltaTime;
+        scarfyRef.isInAir = true;
+    }
+}
+
+void HandleJump(Scarfy& scarfyRef)
+{
+    // Jump
+    if (IsKeyPressed(KEY_SPACE) && !scarfyRef.isInAir)
+    {
+        scarfyRef.velocity += scarfyRef.jumpVelocity;
+    }
+}
+
+void HandleAnimation(Scarfy& scarfyRef, float& runningTime, const float& updateTime, float& deltaTime, int& frame)
+{
+    if (runningTime >= updateTime)
+    {
+        runningTime = 0.0;
+
+        // update animation frame
+        scarfyRef.rectangle.x = frame * scarfyRef.rectangle.width;
+        frame++;
+
+        // reset frame if end of sprites
+        if (frame > scarfyRef.spriteCount - 1)
+        {
+            frame = 0;
+        }
+    }
 }
