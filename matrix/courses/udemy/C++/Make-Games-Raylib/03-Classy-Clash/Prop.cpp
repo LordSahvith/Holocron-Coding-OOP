@@ -9,5 +9,17 @@ Prop::Prop(Texture2D texture, Vector2 worldPosition, float& scale)
 void Prop::Render(Vector2 knightPosition)
 {
     Vector2 ScreenPosition{Vector2Subtract(WorldPosition, knightPosition)};
-    DrawTextureEx(Texture, ScreenPosition, 0.0f, *Scale, WHITE);   
+    DrawTextureEx(Texture, ScreenPosition, 0.0f, *Scale, WHITE);
+}
+
+Rectangle Prop::GetCollisionRec(Vector2 knightPosition)
+{
+    Vector2 ScreenPosition{Vector2Subtract(WorldPosition, knightPosition)};
+
+    return Rectangle{
+        ScreenPosition.x,
+        ScreenPosition.y,
+        *Scale * Texture.width,
+        *Scale * Texture.height,
+    };
 }

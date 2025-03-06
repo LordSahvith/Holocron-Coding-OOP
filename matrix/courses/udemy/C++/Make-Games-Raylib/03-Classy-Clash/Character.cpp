@@ -12,12 +12,15 @@ Character::Character(int width, int height, float& scale)
     ScreenHeight = height;
     Scale = &scale;
     ScreenPosition = Vector2{ScreenWidth / 2.0f - (*Scale * 0.5f * SpriteWidth),
-                      ScreenHeight / 2.0f - (*Scale * 0.5f * SpriteHeight)};
+                             ScreenHeight / 2.0f - (*Scale * 0.5f * SpriteHeight)};
     WorldPosition = Vector2{0.0f, 0.0f};
+    WorldPositionLastFrame = WorldPosition;
 }
 
 void Character::Tick(float DeltaTime)
 {
+    WorldPositionLastFrame = WorldPosition;
+
     Vector2 Direction{};
     HandleInput(Direction);
 
@@ -35,7 +38,7 @@ void Character::Tick(float DeltaTime)
     HandleAnimation(DeltaTime);
 
     // draw character
-    DrawTexturePro(Texture, GetSource(), GetDestination(), Vector2{}, 0.0f, WHITE);
+    DrawTexturePro(Texture, GetSource(), GetCollisionRec(), Vector2{}, 0.0f, WHITE);
 }
 
 Vector2 Character::GetWorldPosition() const
@@ -48,28 +51,28 @@ Rectangle Character::GetSource() const
     return Rectangle{Frame * SpriteWidth, 0.0f, RightLeft * SpriteWidth, SpriteHeight};
 }
 
-Rectangle Character::GetDestination() const
+Rectangle Character::GetCollisionRec() const
 {
-    return Rectangle{ScreenPosition.x, ScreenPosition.y, (*Scale * SpriteWidth), *Scale * SpriteHeight};
+    return Rectangle{ScreenPosition.x, ScreenPosition.y, *Scale * SpriteWidth, *Scale * SpriteHeight};
 }
 
 void Character::HandleInput(Vector2& direction)
 {
-    if (IsKeyDown(KEY_A) && WorldPosition.x > 0.0f)
+    if (IsKeyDown(KEY_A))
     {
         direction.x -= 1.0f;
         RightLeft = -1.0f;
     }
-    if (IsKeyDown(KEY_D) && WorldPosition.x < (*Scale * ScreenWidth) - ScreenWidth)
+    if (IsKeyDown(KEY_D))
     {
         direction.x += 1.0f;
         RightLeft = 1.0f;
     }
-    if (IsKeyDown(KEY_W) && WorldPosition.y > 0.0f)
+    if (IsKeyDown(KEY_W))
     {
         direction.y -= 1.0f;
     }
-    if (IsKeyDown(KEY_S) && WorldPosition.y < (*Scale * ScreenHeight) - ScreenHeight)
+    if (IsKeyDown(KEY_S))
     {
         direction.y += 1.0f;
     }
@@ -88,4 +91,24 @@ void Character::HandleAnimation(float& DeltaTime)
             Frame = 0;
         }
     }
+}
+
+void Character::UndoMovement()
+{
+    WorldPosition = WorldPositionLastFrame;
+}
+
+int Character::GetScreenWidth() const
+{
+    return ScreenWidth;
+}
+
+int Character::GetScreenHeight() const
+{
+    return ScreenHeight;
+}
+
+float* Character::GetScale() const
+{
+    return Scale;
 }

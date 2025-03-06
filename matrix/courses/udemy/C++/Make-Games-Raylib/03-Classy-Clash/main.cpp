@@ -30,9 +30,11 @@ int main()
     // Create Character Object
     Character Knight{WINDOW_WIDTH, WINDOW_HEIGHT, scale};
 
-    // Create Prop Object
-    Texture2D rockTexture{LoadTexture("nature_tileset/Rock.png")};
-    Prop Rock{rockTexture, Vector2{4.0f, 4.0f}, scale};
+    // Create Props
+    Prop Props[2]{
+        Prop{LoadTexture("nature_tileset/Rock.png"), Vector2{700, 400}, scale},
+        Prop{LoadTexture("nature_tileset/Log.png"), Vector2{500, 400}, scale},
+    };
 
     SetTargetFPS(60);
     while (!WindowShouldClose())
@@ -44,8 +46,23 @@ int main()
         MainMap.Position = Vector2Scale(Knight.GetWorldPosition(), -1.0f);
         DrawTextureEx(MainMap.Texture, MainMap.Position, 0.0f, *MainMap.Scale, WHITE);
 
-        // Draw Rock
-        Rock.Render(Knight.GetWorldPosition());
+        // Check Map Bounds
+        if (Knight.GetWorldPosition().y < 0.0f || Knight.GetWorldPosition().x < 0.0f ||
+            Knight.GetWorldPosition().x > (*Knight.GetScale() * Knight.GetScreenWidth()) - Knight.GetScreenWidth() ||
+            Knight.GetWorldPosition().x > (*Knight.GetScale() * Knight.GetScreenHeight()) - Knight.GetScreenHeight())
+        {
+            Knight.UndoMovement();
+        }
+
+        // Draw Props
+        for (Prop Prop : Props)
+        {
+            Prop.Render(Knight.GetWorldPosition());
+            if (CheckCollisionRecs(Prop.GetCollisionRec(Knight.GetWorldPosition()), Knight.GetCollisionRec()))
+            {
+                Knight.UndoMovement();
+            }
+        }
 
         // Draw Character
         Knight.Tick(GetFrameTime());

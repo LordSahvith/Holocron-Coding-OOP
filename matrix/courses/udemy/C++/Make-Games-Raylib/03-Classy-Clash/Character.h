@@ -10,9 +10,13 @@ class Character
 
     Vector2 GetWorldPosition() const;
     Rectangle GetSource() const;
-    Rectangle GetDestination() const;
+    Rectangle GetCollisionRec() const;
     void HandleInput(Vector2& direction);
     void HandleAnimation(float& DeltaTime);
+    void UndoMovement();
+    int GetScreenWidth() const;
+    int GetScreenHeight() const;
+    float* GetScale() const;
 
   private:
     Texture2D Texture;
@@ -20,6 +24,7 @@ class Character
     Texture2D Run;
     Vector2 ScreenPosition;
     Vector2 WorldPosition;
+    Vector2 WorldPositionLastFrame;
     int ScreenWidth;
     int ScreenHeight;
     float* Scale;
