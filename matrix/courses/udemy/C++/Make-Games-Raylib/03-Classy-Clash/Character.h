@@ -1,8 +1,9 @@
 #pragma once
 
 #include "raylib.h"
+#include "BaseCharacter.h"
 
-class Character
+class Character : public BaseCharacter
 {
   public:
     Character(int screenWidth, int screenHeight, float& scale);
@@ -28,6 +29,9 @@ class Character
     int ScreenWidth;
     int ScreenHeight;
     float* Scale;
+    float SpriteWidth;
+    float SpriteHeight;
+
     float RightLeft{1.0f};
     float RunningTime{0.0f};
     int Frame{0};
@@ -35,6 +39,4 @@ class Character
     float UpdateTime{1.0f / 12.0f};
     float Speed{4.0f};
     float SpriteCount{6.0f};
-    float SpriteWidth{0.0f};
-    float SpriteHeight{0.0f};
 };
