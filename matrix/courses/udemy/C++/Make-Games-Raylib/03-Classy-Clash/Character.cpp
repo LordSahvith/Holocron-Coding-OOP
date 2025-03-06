@@ -19,7 +19,7 @@ Character::Character(int width, int height, float& scale)
 
 void Character::Tick(float DeltaTime)
 {
-    WorldPositionLastFrame = WorldPosition;
+    BaseCharacter::Tick(DeltaTime);
 
     Vector2 Direction{};
     HandleInput(Direction);
@@ -33,12 +33,6 @@ void Character::Tick(float DeltaTime)
     {
         Texture = Idle;
     }
-
-    // update animation frame
-    HandleAnimation(DeltaTime);
-
-    // draw character
-    DrawTexturePro(Texture, GetSource(), GetCollisionRec(), Vector2{}, 0.0f, WHITE);
 }
 
 void Character::HandleInput(Vector2& direction)

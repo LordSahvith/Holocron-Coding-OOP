@@ -7,7 +7,7 @@ class Character : public BaseCharacter
 {
   public:
     Character(int screenWidth, int screenHeight, float& scale);
-    void Tick(float DeltaTime);
+    virtual void Tick(float DeltaTime) override;
     void HandleInput(Vector2& direction);
     int GetScreenWidth() const;
     int GetScreenHeight() const;

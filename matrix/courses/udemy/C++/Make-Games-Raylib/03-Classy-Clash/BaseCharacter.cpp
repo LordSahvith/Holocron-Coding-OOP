@@ -4,6 +4,17 @@ BaseCharacter::BaseCharacter()
 {
 }
 
+void BaseCharacter::Tick(float DeltaTime)
+{    
+    WorldPositionLastFrame = WorldPosition;
+
+    // update animation frame
+    HandleAnimation(DeltaTime);
+
+    // draw character
+    DrawTexturePro(Texture, GetSource(), GetCollisionRec(), Vector2{}, 0.0f, WHITE);
+}
+
 Vector2 BaseCharacter::GetWorldPosition() const
 {
     return WorldPosition;
