@@ -1,43 +1,116 @@
 #include "raylib.h"
 #include "raymath.h"
 
-class Map
+struct Map
+{
+    Texture2D Texture{LoadTexture("nature_tileset/WorldMap.png")};
+    Vector2 Position{0.0f, 0.0f};
+    float Scale{4.0f};
+};
+
+class Character
 {
   public:
-    Map(Texture2D map, Vector2 pos, float scale, float speed)
-        : MapImage{map}, Position{pos}, Scale{scale}, Speed{speed} {};
-    Texture2D GetMap() const { return MapImage; }
-    int GetMapWidth() const
-    {
-        return MapImage.width * Scale;
-    }
-    int GetMapHeight() const
-    {
-        return MapImage.height * Scale;
-    }
-    Vector2 GetPosition() const
-    {
-        return Position;
-    }
-    void SetPosition(Vector2 pos)
-    {
-        Position = pos;
-    }
-    float GetScale() const
-    {
-        return Scale;
-    }
-    float GetSpeed() const
-    {
-        return Speed;
-    }
+    Vector2 GetWorldPosition() const;
+    void SetScreenPosition(int windowWidth, int windowHeight);
+    void SetScreenWidth(int windowWidth);
+    void SetScreenHeight(int windowHeight);
+    void SetScale(float amount);
+    void Tick(float DeltaTime);
 
   private:
-    Texture2D MapImage;
-    Vector2 Position;
-    float Scale;
-    float Speed;
+    Texture2D Texture{LoadTexture("characters/knight_idle_spritesheet.png")};
+    Texture2D Idle{LoadTexture("characters/knight_idle_spritesheet.png")};
+    Texture2D Run{LoadTexture("characters/knight_run_spritesheet.png")};
+    Vector2 ScreenPosition{0.0f, 0.0f};
+    Vector2 WorldPosition{0.0f, 0.0f};
+    int ScreenWidth{};
+    int ScreenHeight{};
+    float RightLeft{1.0f};
+    float RunningTime{0.0f};
+    int Frame{0};
+    const int MaxFrames{6};
+    const float UpdateTime{1.0f / 12.0f};
+    const float Speed{4.0f};
+    float Scale{0.0f};
 };
+
+Vector2 Character::GetWorldPosition() const
+{
+    return WorldPosition;
+}
+
+void Character::SetScreenPosition(int width, int height)
+{
+    ScreenPosition = {(float)width / 2.0f - (4.0f * (0.5f * (float)Texture.width / 6.0f)),
+                      (float)height / 2.0f - (4.0f * (0.5f * (float)Texture.height))};
+}
+
+void Character::SetScreenWidth(int width)
+{
+    ScreenWidth = width;
+}
+
+void Character::SetScreenHeight(int height)
+{
+    ScreenHeight = height;
+}
+
+void Character::SetScale(float amount)
+{
+    Scale = amount;
+}
+
+void Character::Tick(float DeltaTime)
+{
+    Vector2 direction{};
+    if (IsKeyDown(KEY_A) && WorldPosition.x > 0.00001f)
+    {
+        direction.x -= 1.0f;
+        RightLeft = -1.0f;
+    }
+    if (IsKeyDown(KEY_D) && WorldPosition.x < (Scale * ScreenWidth) - ScreenWidth)
+    {
+        direction.x += 1.0f;
+        RightLeft = 1.0f;
+    }
+    if (IsKeyDown(KEY_W) && WorldPosition.y > 0.00001f)
+    {
+        direction.y -= 1.0f;
+    }
+    if (IsKeyDown(KEY_S) && WorldPosition.y < (Scale * ScreenHeight) -  ScreenHeight)
+    {
+        direction.y += 1.0f;
+    }
+
+    if (Vector2Length(direction) != 0.0f)
+    {
+        WorldPosition = Vector2Add(WorldPosition, Vector2Scale(Vector2Normalize(direction), Speed));
+        Texture = Run;
+    }
+    else
+    {
+        Texture = Idle;
+    }
+
+    // update animation frame
+    RunningTime += DeltaTime;
+    if (RunningTime >= UpdateTime)
+    {
+        Frame++;
+        RunningTime = 0.0f;
+        if (Frame > MaxFrames)
+        {
+            Frame = 0;
+        }
+    }
+
+    // draw character
+    Rectangle source{Frame * ((float)Texture.width / 6.0f), 0.0f, RightLeft * ((float)Texture.width / 6.0f),
+                     (float)Texture.height};
+    Rectangle destination{ScreenPosition.x, ScreenPosition.y, (4.0f * (Texture.width / 6.0f)), (4.0f * Texture.height)};
+    DrawTexturePro(Texture, source, destination, Vector2{}, 0.0f, WHITE);
+}
 
 int main()
 {
@@ -46,25 +119,15 @@ int main()
     const int WINDOW_HEIGHT{500};
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Classy Clash");
 
-    // Map Settings
-    const Texture2D MAIN_MAP = LoadTexture("nature_tileset/WorldMap.png");
-    Vector2 mapPos{0.0f, 0.0f};
-    const float MAP_SCALE{4.0f};
-    float cameraSpeed{4.0f};
-    Map MainMap{MAIN_MAP, mapPos, MAP_SCALE, cameraSpeed};
+    // Create Map Object
+    Map MainMap;
 
-    // Character Settings
-    Texture2D knightIdle = LoadTexture("characters/knight_idle_spritesheet.png");
-    Texture2D knightRun = LoadTexture("characters/knight_run_spritesheet.png");
-    Texture2D knight = LoadTexture("characters/knight_idle_spritesheet.png");
-    Vector2 knightPos{(float)WINDOW_WIDTH / 2.0f - (MAP_SCALE * (0.5f * (float)knight.width / 6.0f)),
-                      (float)WINDOW_HEIGHT / 2.0f - (MAP_SCALE * (0.5f * (float)knight.height))};
-    float rightLeft{1.0f}; // 1: right, -1: left
-    // animation variables
-    float runningTime{0.0f};
-    int frame{0};
-    const int maxFrames{6};
-    const float updateTime{1.0f / 12.0f};
+    // Create Character Object
+    Character Knight;
+    Knight.SetScreenWidth(WINDOW_WIDTH);
+    Knight.SetScreenHeight(WINDOW_HEIGHT);
+    Knight.SetScreenPosition(WINDOW_WIDTH, WINDOW_HEIGHT);
+    Knight.SetScale(MainMap.Scale);
 
     SetTargetFPS(60);
     while (!WindowShouldClose())
@@ -72,57 +135,12 @@ int main()
         BeginDrawing();
         ClearBackground(BLACK);
 
-        Vector2 direction{};
-        if (IsKeyDown(KEY_A) && MainMap.GetPosition().x < 0)
-        {
-            direction.x -= 1.0f;
-            rightLeft = -1.0f;
-        }
-        if (IsKeyDown(KEY_D) && MainMap.GetPosition().x > -(MainMap.GetMapWidth() - WINDOW_WIDTH))
-        {
-            direction.x += 1.0f;
-            rightLeft = 1.0f;
-        }
-        if (IsKeyDown(KEY_W) && MainMap.GetPosition().y < 0)
-        {
-            direction.y -= 1.0f;
-        }
-        if (IsKeyDown(KEY_S) && MainMap.GetPosition().y > -(MainMap.GetMapHeight() - WINDOW_HEIGHT))
-        {
-            direction.y += 1.0f;
-        }
+        // Draw Map
+        MainMap.Position = Vector2Scale(Knight.GetWorldPosition(), -1.0f);
+        DrawTextureEx(MainMap.Texture, MainMap.Position, 0, MainMap.Scale, WHITE);
 
-        if (Vector2Length(direction) != 0.0f)
-        {
-            Vector2 newPos = Vector2Subtract(MainMap.GetPosition(), Vector2Scale(Vector2Normalize(direction), cameraSpeed));
-            MainMap.SetPosition(newPos);
-            knight = knightRun;
-        }
-        else
-        {
-            knight = knightIdle;
-        }
-
-        // draw map
-        DrawTextureEx(MainMap.GetMap(), MainMap.GetPosition(), 0, MAP_SCALE, WHITE);
-
-        // update animation frame
-        runningTime += GetFrameTime();
-        if (runningTime >= updateTime)
-        {
-            frame++;
-            runningTime = 0.0f;
-            if (frame > maxFrames)
-            {
-                frame = 0;
-            }
-        }
-
-        // draw character
-        Rectangle source{frame * (float)knight.width / 6.0f, 0.0f, rightLeft * ((float)knight.width / 6.0f),
-                         (float)knight.height};
-        Rectangle destination{knightPos.x, knightPos.y, MAP_SCALE * (knight.width / 6.0f), MAP_SCALE * (knight.height)};
-        DrawTexturePro(knight, source, destination, Vector2{}, 0.0f, WHITE);
+        // Draw Character
+        Knight.Tick(GetFrameTime());
 
         EndDrawing();
     }
