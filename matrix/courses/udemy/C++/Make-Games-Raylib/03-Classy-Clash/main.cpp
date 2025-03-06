@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Character.h"
+#include "Prop.h"
 
 struct Map
 {
@@ -29,6 +30,10 @@ int main()
     // Create Character Object
     Character Knight{WINDOW_WIDTH, WINDOW_HEIGHT, scale};
 
+    // Create Prop Object
+    Texture2D rockTexture{LoadTexture("nature_tileset/Rock.png")};
+    Prop Rock{rockTexture, Vector2{4.0f, 4.0f}, scale};
+
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -38,6 +43,9 @@ int main()
         // Draw Map
         MainMap.Position = Vector2Scale(Knight.GetWorldPosition(), -1.0f);
         DrawTextureEx(MainMap.Texture, MainMap.Position, 0.0f, *MainMap.Scale, WHITE);
+
+        // Draw Rock
+        Rock.Render(Knight.GetWorldPosition());
 
         // Draw Character
         Knight.Tick(GetFrameTime());
