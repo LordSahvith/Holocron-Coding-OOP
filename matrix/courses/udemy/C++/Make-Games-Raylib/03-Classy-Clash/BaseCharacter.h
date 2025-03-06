@@ -6,7 +6,8 @@ class BaseCharacter
 {
   public:
     BaseCharacter();
-    virtual void Tick(float DeltaTime) = 0;
+    virtual void Tick(float DeltaTime);
+    virtual Vector2 GetScreenPosition() const = 0;
     Vector2 GetWorldPosition() const;
     Rectangle GetCollisionRec() const;
     Rectangle GetSource() const;
@@ -17,7 +18,6 @@ class BaseCharacter
     Texture2D Texture;
     Texture2D Idle;
     Texture2D Run;
-    Vector2 ScreenPosition;
     Vector2 WorldPosition;
     Vector2 WorldPositionLastFrame;
     int ScreenWidth;
@@ -26,6 +26,7 @@ class BaseCharacter
     float SpriteWidth;
     float SpriteHeight;
 
+    Vector2 Velocity{0.0f, 0.0f};
     float RightLeft{1.0f};
     float RunningTime{0.0f};
     int Frame{0};

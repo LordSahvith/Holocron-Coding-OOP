@@ -8,8 +8,8 @@ class Character : public BaseCharacter
   public:
     Character(int screenWidth, int screenHeight, float& scale);
     virtual void Tick(float DeltaTime) override;
-    Vector2 GetScreenPosition() const;
-    void HandleInput(Vector2& direction);
+    virtual Vector2 GetScreenPosition() const override;
+    void HandleInput();
     int GetScreenWidth() const;
     int GetScreenHeight() const;
     float* GetScale() const;
