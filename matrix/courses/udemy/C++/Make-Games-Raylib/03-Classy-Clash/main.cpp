@@ -34,19 +34,21 @@ int main()
 
     // Create Props
     Prop Props[2]{
-        Prop{LoadTexture("nature_tileset/Rock.png"), Vector2{700, 400}, scale},
-        Prop{LoadTexture("nature_tileset/Log.png"), Vector2{500, 400}, scale},
+        Prop{LoadTexture("nature_tileset/Rock.png"), Vector2{700.0f, 400.0f}, scale},
+        Prop{LoadTexture("nature_tileset/Log.png"), Vector2{500.0f, 400.0f}, scale},
     };
 
-    Enemy Goblins[2]{Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
-                           LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{400, 400}, scale},
-                     Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
-                           LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{600, 600}, scale}};
+    Enemy Goblin{LoadTexture("characters/goblin_idle_spritesheet.png"),
+                 LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{400.0f, 400.0f}, scale};
 
-    // Set Goblin's Character Target
-    for (Enemy& goblin : Goblins)
+    Enemy Slime{LoadTexture("characters/slime_idle_spritesheet.png"),
+                LoadTexture("characters/slime_run_spritesheet.png"), Vector2{600.0f, 600.0f}, scale};
+
+    Enemy* Enemies[]{&Goblin, &Slime};
+
+    for (Enemy* enemy : Enemies)
     {
-        goblin.SetTarget(&Knight);
+        enemy->SetTarget(&Knight);
     }
 
     SetTargetFPS(60);
@@ -90,23 +92,23 @@ int main()
             DrawText(KnightsHealth.c_str(), 55.0f, 45.0f, 40, RED);
         }
 
-        // Draw Goblins
-        for (Enemy& goblin : Goblins)
-        {
-            goblin.Tick(GetFrameTime());
-        }
-
         // Draw Character
         Knight.Tick(GetFrameTime());
 
-        // Check Collision with Goblins & Weapon
-        for (Enemy& goblin : Goblins)
+        // Draw Enemies
+        for (Enemy* enemy : Enemies)
+        {
+            enemy->Tick(GetFrameTime());
+        }
+
+        // Check Collision with Enemies & Weapon
+        for (Enemy* enemy : Enemies)
         {
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
             {
-                if (CheckCollisionRecs(goblin.GetCollisionRec(), Knight.GetWeaponCollisionRec()))
+                if (CheckCollisionRecs(enemy->GetCollisionRec(), Knight.GetWeaponCollisionRec()))
                 {
-                    goblin.SetIsAlive(false);
+                    enemy->SetIsAlive(false);
                 }
             }
         }

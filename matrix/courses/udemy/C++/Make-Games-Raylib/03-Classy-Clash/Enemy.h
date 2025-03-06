@@ -13,7 +13,8 @@ class Enemy : public BaseCharacter
     virtual Vector2 GetScreenPosition() const override;
     void SetTarget(Character* character);
 
-    private:
-      Character* Target;
-      float DamagePerSecond{10.0f};
+  private:
+    Character* Target;
+    float DamagePerSecond{10.0f};
+    float Radius{25.0f};
 };
