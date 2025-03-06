@@ -35,6 +35,11 @@ void Character::Tick(float DeltaTime)
     }
 }
 
+Vector2 Character::GetScreenPosition() const
+{
+    return ScreenPosition;
+}
+
 void Character::HandleInput(Vector2& direction)
 {
     if (IsKeyDown(KEY_A))
