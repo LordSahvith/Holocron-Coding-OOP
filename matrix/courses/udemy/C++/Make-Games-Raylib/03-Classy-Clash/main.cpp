@@ -40,6 +40,12 @@ int main()
     Enemy Goblins[1]{Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
                            LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{400, 400}, scale}};
 
+    // Set Goblin's Character Target
+    for (Enemy& goblin : Goblins)
+    {
+        goblin.SetTarget(&Knight);
+    }
+
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
