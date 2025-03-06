@@ -1,7 +1,7 @@
 #include "Character.h"
 #include "raymath.h"
 
-Character::Character(int width, int height, float scale)
+Character::Character(int width, int height, float& scale)
 {
     Texture = LoadTexture("characters/knight_idle_spritesheet.png");
     Idle = LoadTexture("characters/knight_idle_spritesheet.png");
@@ -10,9 +10,9 @@ Character::Character(int width, int height, float scale)
     SpriteHeight = Texture.height;
     ScreenWidth = width;
     ScreenHeight = height;
-    Scale = scale;
-    ScreenPosition = Vector2{ScreenWidth / 2.0f - (Scale * 0.5f * SpriteWidth),
-                      ScreenHeight / 2.0f - (Scale * 0.5f * SpriteHeight)};
+    Scale = &scale;
+    ScreenPosition = Vector2{ScreenWidth / 2.0f - (*Scale * 0.5f * SpriteWidth),
+                      ScreenHeight / 2.0f - (*Scale * 0.5f * SpriteHeight)};
     WorldPosition = Vector2{0.0f, 0.0f};
 }
 
@@ -50,7 +50,7 @@ Rectangle Character::GetSource() const
 
 Rectangle Character::GetDestination() const
 {
-    return Rectangle{ScreenPosition.x, ScreenPosition.y, (Scale * SpriteWidth), Scale * SpriteHeight};
+    return Rectangle{ScreenPosition.x, ScreenPosition.y, (*Scale * SpriteWidth), *Scale * SpriteHeight};
 }
 
 void Character::HandleInput(Vector2& direction)
@@ -60,7 +60,7 @@ void Character::HandleInput(Vector2& direction)
         direction.x -= 1.0f;
         RightLeft = -1.0f;
     }
-    if (IsKeyDown(KEY_D) && WorldPosition.x < (Scale * ScreenWidth) - ScreenWidth)
+    if (IsKeyDown(KEY_D) && WorldPosition.x < (*Scale * ScreenWidth) - ScreenWidth)
     {
         direction.x += 1.0f;
         RightLeft = 1.0f;
@@ -69,7 +69,7 @@ void Character::HandleInput(Vector2& direction)
     {
         direction.y -= 1.0f;
     }
-    if (IsKeyDown(KEY_S) && WorldPosition.y < (Scale * ScreenHeight) - ScreenHeight)
+    if (IsKeyDown(KEY_S) && WorldPosition.y < (*Scale * ScreenHeight) - ScreenHeight)
     {
         direction.y += 1.0f;
     }

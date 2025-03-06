@@ -4,10 +4,13 @@
 
 struct Map
 {
-    Map(float& scale): Scale{scale}{};
+    Map(float& scale)
+    {
+        Scale = &scale;
+    };
     Texture2D Texture{LoadTexture("nature_tileset/WorldMap.png")};
     Vector2 Position{0.0f, 0.0f};
-    float Scale{0.0f};
+    float* Scale;
 };
 
 int main()
@@ -34,7 +37,7 @@ int main()
 
         // Draw Map
         MainMap.Position = Vector2Scale(Knight.GetWorldPosition(), -1.0f);
-        DrawTextureEx(MainMap.Texture, MainMap.Position, 0.0f, scale, WHITE);
+        DrawTextureEx(MainMap.Texture, MainMap.Position, 0.0f, *MainMap.Scale, WHITE);
 
         // Draw Character
         Knight.Tick(GetFrameTime());

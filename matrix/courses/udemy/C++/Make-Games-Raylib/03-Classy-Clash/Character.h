@@ -5,7 +5,7 @@
 class Character
 {
   public:
-    Character(int screenWidth, int screenHeight, float scale);
+    Character(int screenWidth, int screenHeight, float& scale);
     void Tick(float DeltaTime);
 
     Vector2 GetWorldPosition() const;
@@ -22,7 +22,7 @@ class Character
     Vector2 WorldPosition;
     int ScreenWidth;
     int ScreenHeight;
-    float Scale;
+    float* Scale;
     float RightLeft{1.0f};
     float RunningTime{0.0f};
     int Frame{0};
