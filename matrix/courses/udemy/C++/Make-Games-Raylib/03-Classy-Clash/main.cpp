@@ -4,9 +4,10 @@
 
 struct Map
 {
+    Map(float& scale): Scale{scale}{};
     Texture2D Texture{LoadTexture("nature_tileset/WorldMap.png")};
     Vector2 Position{0.0f, 0.0f};
-    float Scale{4.0f};
+    float Scale{0.0f};
 };
 
 int main()
@@ -16,15 +17,14 @@ int main()
     const int WINDOW_HEIGHT{500};
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Classy Clash");
 
+    // scale for map and character images
+    float scale{4.0f};
+
     // Create Map Object
-    Map MainMap;
+    Map MainMap{scale};
 
     // Create Character Object
-    Character Knight{WINDOW_WIDTH, WINDOW_HEIGHT, MainMap.Scale};
-    Knight.SetScreenWidth(WINDOW_WIDTH);
-    Knight.SetScreenHeight(WINDOW_HEIGHT);
-    Knight.SetScreenPosition(WINDOW_WIDTH, WINDOW_HEIGHT);
-    Knight.SetScale(MainMap.Scale);
+    Character Knight{WINDOW_WIDTH, WINDOW_HEIGHT, scale};
 
     SetTargetFPS(60);
     while (!WindowShouldClose())
@@ -34,7 +34,7 @@ int main()
 
         // Draw Map
         MainMap.Position = Vector2Scale(Knight.GetWorldPosition(), -1.0f);
-        DrawTextureEx(MainMap.Texture, MainMap.Position, 0.0f, MainMap.Scale, WHITE);
+        DrawTextureEx(MainMap.Texture, MainMap.Position, 0.0f, scale, WHITE);
 
         // Draw Character
         Knight.Tick(GetFrameTime());
