@@ -2,6 +2,7 @@
 #include "raymath.h"
 #include "Character.h"
 #include "Prop.h"
+#include "Enemy.h"
 
 struct Map
 {
@@ -36,6 +37,9 @@ int main()
         Prop{LoadTexture("nature_tileset/Log.png"), Vector2{500, 400}, scale},
     };
 
+    Enemy Goblins[1]{Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
+                           LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{400, 400}, scale}};
+
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -55,13 +59,19 @@ int main()
         }
 
         // Draw Props
-        for (Prop Prop : Props)
+        for (Prop& prop : Props)
         {
-            Prop.Render(Knight.GetWorldPosition());
-            if (CheckCollisionRecs(Prop.GetCollisionRec(Knight.GetWorldPosition()), Knight.GetCollisionRec()))
+            prop.Render(Knight.GetWorldPosition());
+            if (CheckCollisionRecs(prop.GetCollisionRec(Knight.GetWorldPosition()), Knight.GetCollisionRec()))
             {
                 Knight.UndoMovement();
             }
+        }
+
+        // Draw Goblins
+        for (Enemy& goblin : Goblins)
+        {
+            goblin.Tick(GetFrameTime());
         }
 
         // Draw Character
