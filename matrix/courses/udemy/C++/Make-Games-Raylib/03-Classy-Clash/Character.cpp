@@ -1,0 +1,96 @@
+#include "Character.h"
+#include "raymath.h"
+
+Character::Character(int width, int height, float scale)
+{
+    SpriteWidth = Texture.width / SpriteCount;
+    SpriteHeight = Texture.height;
+}
+
+void Character::Tick(float DeltaTime)
+{
+    Vector2 Direction{};
+    HandleInput(Direction);
+
+    if (Vector2Length(Direction) != 0.0f)
+    {
+        WorldPosition = Vector2Add(WorldPosition, Vector2Scale(Vector2Normalize(Direction), Speed));
+        Texture = Run;
+    }
+    else
+    {
+        Texture = Idle;
+    }
+
+    // update animation frame
+    RunningTime += DeltaTime;
+    if (RunningTime >= UpdateTime)
+    {
+        Frame++;
+        RunningTime = 0.0f;
+        if (Frame > MaxFrames)
+        {
+            Frame = 0;
+        }
+    }
+
+    // draw character
+    DrawTexturePro(Texture, GetSource(), GetDestination(), Vector2{}, 0.0f, WHITE);
+}
+
+Vector2 Character::GetWorldPosition() const
+{
+    return WorldPosition;
+}
+
+Rectangle Character::GetSource() const
+{
+    return Rectangle{Frame * SpriteWidth, 0.0f, RightLeft * SpriteWidth, SpriteHeight};
+}
+
+Rectangle Character::GetDestination() const
+{
+    return Rectangle{ScreenPosition.x, ScreenPosition.y, (Scale * SpriteWidth), Scale * SpriteHeight};
+}
+
+void Character::SetScreenPosition(int width, int height)
+{
+    ScreenPosition = {width / 2.0f - (Scale * 0.5f * SpriteWidth), height / 2.0f - (Scale * 0.5f * SpriteHeight)};
+}
+
+void Character::SetScreenWidth(int width)
+{
+    ScreenWidth = width;
+}
+
+void Character::SetScreenHeight(int height)
+{
+    ScreenHeight = height;
+}
+
+void Character::SetScale(float amount)
+{
+    Scale = amount;
+}
+
+void Character::HandleInput(Vector2& direction)
+{
+    if (IsKeyDown(KEY_A) && WorldPosition.x > 0.0f)
+    {
+        direction.x -= 1.0f;
+        RightLeft = -1.0f;
+    }
+    if (IsKeyDown(KEY_D) && WorldPosition.x < (Scale * ScreenWidth) - ScreenWidth)
+    {
+        direction.x += 1.0f;
+        RightLeft = 1.0f;
+    }
+    if (IsKeyDown(KEY_W) && WorldPosition.y > 0.0f)
+    {
+        direction.y -= 1.0f;
+    }
+    if (IsKeyDown(KEY_S) && WorldPosition.y < (Scale * ScreenHeight) - ScreenHeight)
+    {
+        direction.y += 1.0f;
+    }
+}
