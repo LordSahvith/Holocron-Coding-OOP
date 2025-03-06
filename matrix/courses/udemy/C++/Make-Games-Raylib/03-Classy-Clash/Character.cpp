@@ -41,21 +41,6 @@ void Character::Tick(float DeltaTime)
     DrawTexturePro(Texture, GetSource(), GetCollisionRec(), Vector2{}, 0.0f, WHITE);
 }
 
-Vector2 Character::GetWorldPosition() const
-{
-    return WorldPosition;
-}
-
-Rectangle Character::GetSource() const
-{
-    return Rectangle{Frame * SpriteWidth, 0.0f, RightLeft * SpriteWidth, SpriteHeight};
-}
-
-Rectangle Character::GetCollisionRec() const
-{
-    return Rectangle{ScreenPosition.x, ScreenPosition.y, *Scale * SpriteWidth, *Scale * SpriteHeight};
-}
-
 void Character::HandleInput(Vector2& direction)
 {
     if (IsKeyDown(KEY_A))
@@ -76,26 +61,6 @@ void Character::HandleInput(Vector2& direction)
     {
         direction.y += 1.0f;
     }
-}
-
-void Character::HandleAnimation(float& DeltaTime)
-{
-    // update animation frame
-    RunningTime += DeltaTime;
-    if (RunningTime >= UpdateTime)
-    {
-        Frame++;
-        RunningTime = 0.0f;
-        if (Frame > MaxFrames)
-        {
-            Frame = 0;
-        }
-    }
-}
-
-void Character::UndoMovement()
-{
-    WorldPosition = WorldPositionLastFrame;
 }
 
 int Character::GetScreenWidth() const
