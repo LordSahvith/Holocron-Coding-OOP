@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Character.h"
+#include "raymath.h"
 
 Enemy::Enemy(Texture2D idleTexture, Texture2D runTexture, Vector2 position, float& scale)
 {
@@ -14,6 +15,7 @@ Enemy::Enemy(Texture2D idleTexture, Texture2D runTexture, Vector2 position, floa
 
 void Enemy::Tick(float DeltaTime)
 {
+    ScreenPosition = Vector2Subtract(WorldPosition, Target->GetWorldPosition());
     BaseCharacter::Tick(DeltaTime);
 }
 
