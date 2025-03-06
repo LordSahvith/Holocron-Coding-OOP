@@ -63,3 +63,13 @@ void BaseCharacter::UndoMovement()
 {
     WorldPosition = WorldPositionLastFrame;
 }
+
+bool BaseCharacter::GetIsAlive() const
+{
+    return IsAlive;
+}
+
+void BaseCharacter::SetIsAlive(bool isAlive)
+{
+    IsAlive = isAlive;
+}

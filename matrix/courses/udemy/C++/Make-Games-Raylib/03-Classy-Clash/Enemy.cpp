@@ -16,8 +16,16 @@ Enemy::Enemy(Texture2D idleTexture, Texture2D runTexture, Vector2 position, floa
 
 void Enemy::Tick(float DeltaTime)
 {
+    if (!GetIsAlive())
+        return;
+
     Velocity = Vector2Subtract(Target->GetScreenPosition(), GetScreenPosition());
     BaseCharacter::Tick(DeltaTime);
+
+    if (CheckCollisionRecs(Target->GetCollisionRec(), GetCollisionRec()))
+    {
+        Target->TakeDamage(DamagePerSecond * DeltaTime);
+    }
 }
 
 Vector2 Enemy::GetScreenPosition() const

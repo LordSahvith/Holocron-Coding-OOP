@@ -13,6 +13,8 @@ class BaseCharacter
     Rectangle GetSource() const;
     void HandleAnimation(float& DeltaTime);
     void UndoMovement();
+    bool GetIsAlive() const;
+    void SetIsAlive(bool isAlive);
 
   protected:
     Texture2D Texture;
@@ -34,4 +36,7 @@ class BaseCharacter
     float UpdateTime{1.0f / 12.0f};
     float Speed{4.0f};
     float SpriteCount{6.0f};
+
+  private:
+    bool IsAlive{true};
 };

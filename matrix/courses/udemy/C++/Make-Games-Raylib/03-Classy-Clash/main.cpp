@@ -37,8 +37,10 @@ int main()
         Prop{LoadTexture("nature_tileset/Log.png"), Vector2{500, 400}, scale},
     };
 
-    Enemy Goblins[1]{Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
-                           LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{400, 400}, scale}};
+    Enemy Goblins[2]{Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
+                           LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{400, 400}, scale},
+                     Enemy{LoadTexture("characters/goblin_idle_spritesheet.png"),
+                           LoadTexture("characters/goblin_run_spritesheet.png"), Vector2{600, 600}, scale}};
 
     // Set Goblin's Character Target
     for (Enemy& goblin : Goblins)
@@ -82,6 +84,18 @@ int main()
 
         // Draw Character
         Knight.Tick(GetFrameTime());
+
+        // Check Collision with Goblins & Weapon
+        for (Enemy& goblin : Goblins)
+        {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                if (CheckCollisionRecs(goblin.GetCollisionRec(), Knight.GetWeaponCollisionRec()))
+                {
+                    goblin.SetIsAlive(false);
+                }
+            }
+        }
 
         EndDrawing();
     }

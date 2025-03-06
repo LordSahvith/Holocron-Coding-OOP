@@ -15,4 +15,5 @@ class Enemy : public BaseCharacter
 
     private:
       Character* Target;
+      float DamagePerSecond{10.0f};
 };

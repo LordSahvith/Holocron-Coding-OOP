@@ -13,4 +13,12 @@ class Character : public BaseCharacter
     int GetScreenWidth() const;
     int GetScreenHeight() const;
     float* GetScale() const;
+    Rectangle GetWeaponCollisionRec();
+    float GetHealth() const;
+    void TakeDamage(float damage);
+
+  private:
+    Texture2D Weapon{};
+    Rectangle WeaponCollisionRec{};
+    float Health{100.0f};
 };
