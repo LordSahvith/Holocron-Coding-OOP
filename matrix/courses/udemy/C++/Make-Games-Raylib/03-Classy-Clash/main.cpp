@@ -3,6 +3,7 @@
 #include "Character.h"
 #include "Prop.h"
 #include "Enemy.h"
+#include <string>
 
 struct Map
 {
@@ -74,6 +75,19 @@ int main()
             {
                 Knight.UndoMovement();
             }
+        }
+
+        if (!Knight.GetIsAlive())
+        {
+            DrawText("Game Over!", 55.0f, 45.0f, 40, RED);
+            EndDrawing();
+            continue;
+        }
+        else
+        {
+            std::string KnightsHealth = "Health: ";
+            KnightsHealth.append(std::to_string(Knight.GetHealth()), 0, 5);
+            DrawText(KnightsHealth.c_str(), 55.0f, 45.0f, 40, RED);
         }
 
         // Draw Goblins
