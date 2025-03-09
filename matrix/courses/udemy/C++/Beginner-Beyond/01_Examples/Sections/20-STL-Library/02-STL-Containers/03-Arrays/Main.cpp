@@ -7,9 +7,10 @@
 
 // Display the array -- note the size MUST be included
 // when passing a std::array to a function
-void display(const std::array<int, 5> &arr) {
+void display(const std::array<int, 5>& arr) {
     std::cout << "[ ";
-    for (const auto &i : arr) std::cout << i << " ";
+    for (const auto& i : arr)
+        std::cout << i << " ";
     std::cout << "]" << std::endl;
 }
 
@@ -61,7 +62,7 @@ void test3() {
 
     std::array<int, 5> arr1{1, 2, 3, 4, 5};  // double {{ }} is C++ 11
 
-    int *ptr = arr1.data();
+    int* ptr = arr1.data();
     std::cout << ptr << std::endl;
     *ptr = 10000;
 
