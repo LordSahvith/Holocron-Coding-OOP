@@ -1,109 +1,133 @@
 #include "../../00_std_lib_facilities.h"
 
-class Link {
-   public:
+class Link
+{
+  public:
     string value;
-    Link(const string& v, Link* p = nullptr, Link* s = nullptr) : value{v}, previous{p}, next{s} {}
+    Link(const string& v, Link* p = nullptr, Link* s = nullptr) : value{v}, previous{p}, next{s}
+    {
+    }
 
-    Link* insert(Link* newLink);                  // insert newLink before this object
-    Link* add(Link* newLink);                     // insert newLink after this objec
-    Link* erase();                                // remove object from list
-    Link* find(const string& value);              // find value in list
-    const Link* find(const string& value) const;  // find value in const list
+    Link* insert(Link* newLink);           // insert newLink before this object
+    Link* add(Link* newLink);              // insert newLink after this objec
+    Link* erase();                         // remove object from list
+    Link* find(const string& valueToFind); // find valueToFind in list
 
-    Link* advance(int num) const;  // move num positions in list
+    Link* get_next() const
+    {
+        return next;
+    }
+    Link* get_previous() const
+    {
+        return previous;
+    }
 
-    Link* get_next() const { return next; }
-    Link* get_previous() const { return previous; }
-
-   private:
+  private:
     Link* previous;
     Link* next;
 };
 
-Link* Link::insert(Link* newLink) {
-    if (newLink == nullptr) return this;
+Link* Link::insert(Link* newLink)
+{
+    if (newLink == nullptr)
+    {
+        return this;
+    }
     newLink->next = this;
-    if (previous) previous->next = newLink;
+    if (previous)
+    {
+        previous->next = newLink;
+    }
     newLink->previous = previous;
-    previous = newLink; 
+    previous = newLink;
     return newLink;
 }
 
-Link* add(Link* startPoint, Link* p, Link* n) {
-    if (n == nullptr) return p;
-    if (p == nullptr) return n;
-
-    n->previous = p;
-
-    if (p->next) p->next->previous = n;
-
-    n->next = p->next;
-    p->next = n;
-    return startPoint;
-}
-
-Link* erase(Link* p) {
-    if (p == nullptr) return nullptr;
-    if (p->next) p->next->previous = p->previous;
-    if (p->previous) p->previous->next = p->next;
-    return p->next;
-}
-
-Link* find(Link* p, const string& s) {
-    while (p) {
-        if (p->value == s) return p;
-        p = p->next;
+Link* Link::add(Link* newLink)
+{
+    if (newLink == nullptr)
+    {
+        return this;
     }
-    return nullptr;  // return nullptr for not found
-}
+    newLink->previous = this;
 
-Link* advance(Link* p, int n) {
-    if (p == nullptr) return nullptr;
-
-    if (0 < n) {
-        while (n--) {
-            if (p->next == nullptr) return nullptr;
-            p = p->previous;
-        }
-    } else if (n < 0) {
-        while (n++) {
-            if (p->previous == nullptr) return nullptr;
-            p = p->previous;
-        }
+    if (next)
+    {
+        next->previous = newLink;
     }
-    return p;
+
+    newLink->next = next;
+    next = newLink;
+    return newLink;
 }
 
-void print_all(Link* p) {
+Link* Link::erase()
+{
+    if (next)
+    {
+        next->previous = previous;
+    }
+    if (previous)
+    {
+        previous->next = next;
+    }
+    return next;
+}
+
+Link* Link::find(const string& valueToFind)
+{
+    Link* listPtr = this;
+    while (listPtr)
+    {
+        if (listPtr->value == valueToFind)
+            return listPtr;
+        listPtr = listPtr->get_next();
+    }
+    return nullptr; // return nullptr for not found
+}
+
+void print_all(Link* p)
+{
     cout << "{";
-    while (p) {
+    while (p)
+    {
         cout << p->value;
-        p = p->next;
-        if (p) cout << ", ";
+        p = p->get_next();
+        if (p)
+        {
+            cout << ", ";
+        }
     }
     cout << "}" << endl;
 }
 
-int main() {
+int main()
+{
     Link* norse_gods = new Link{"Thor"};
-    norse_gods = insert(norse_gods, new Link{"Odin"});
-    norse_gods = insert(norse_gods, new Link{"Zeus"});
-    norse_gods = insert(norse_gods, new Link{"Freia"});
+    norse_gods = norse_gods->insert(new Link{"Odin"});
+    norse_gods = norse_gods->insert(new Link{"Zeus"});
+    norse_gods = norse_gods->insert(new Link{"Freia"});
 
-    Link* greek_gods = new Link{"Posiedon"};
-    greek_gods = add(greek_gods, greek_gods, new Link{"Mars"});
-    greek_gods = add(greek_gods, find(greek_gods, "Mars"), new Link{"Athena"});
-    greek_gods = add(greek_gods, find(greek_gods, "Athena"), new Link{"Hera"});
+    Link* greek_gods = new Link{"Hera"};
+    greek_gods = greek_gods->insert(new Link{"Athena"});
+    greek_gods = greek_gods->insert(new Link{"Mars"});
+    greek_gods = greek_gods->insert(new Link{"Poseidon"});
 
-    Link* p = find(greek_gods, "Mars");
-    if (p) p->value = "Ares";
+    Link* Mars = greek_gods->find("Mars");
+    if (Mars)
+    {
+        Mars->value = "Ares";
+    }
 
-    Link* Zeus = find(norse_gods, "Zeus");
-    if (Zeus) {
-        if (Zeus == norse_gods) norse_gods = Zeus->next;
-        erase(Zeus);
-        greek_gods = insert(greek_gods, Zeus);
+    Link* Zeus = norse_gods->find("Zeus");
+    if (Zeus)
+    {
+        if (Zeus == norse_gods)
+        {
+            norse_gods = Zeus->get_next();
+        }
+        Zeus->erase();
+        greek_gods = greek_gods->insert(Zeus);
     }
 
     print_all(norse_gods);
