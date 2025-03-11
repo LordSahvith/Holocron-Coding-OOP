@@ -133,13 +133,13 @@ struct String : std::string
 namespace std
 {
 
-template <> struct hash<String>
-{
-    size_t operator()(const String& s) const
+    template <> struct hash<String>
     {
-        return hash<std::string>()(s);
-    }
-};
+        size_t operator()(const String& s) const
+        {
+            return hash<std::string>()(s);
+        }
+    };
 
 } // namespace std
 
@@ -268,6 +268,16 @@ template <typename C, typename Pred>
 Iterator<C> find_if(C& c, Pred p)
 {
     return std::find_if(c.begin(), c.end(), p);
+}
+
+int strlen(const char a[])
+{
+    int count = 0;
+    while (a[count])
+    {
+        ++count;
+    }
+    return count;
 }
 
 #endif // H112
