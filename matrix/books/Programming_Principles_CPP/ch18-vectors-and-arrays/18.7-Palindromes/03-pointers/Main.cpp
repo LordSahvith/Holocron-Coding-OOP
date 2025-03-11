@@ -8,8 +8,7 @@ bool is_palindrome(const char* first, const char* last)
         {
             return false;
         }
-        ++first; // move forward
-        --last;  // move backward
+        return is_palindrome(first + 1, last - 1);
     }
     return true;
 }
