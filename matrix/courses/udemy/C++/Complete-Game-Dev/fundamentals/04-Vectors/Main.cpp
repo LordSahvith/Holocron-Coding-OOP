@@ -35,7 +35,7 @@ int main()
     try
     {
         int temp{IDVec.at(5)}; // throws exception: out of bounds
-        std::cout << "doesn't exist: " << temp << std::endl;
+        std::cout << "doesn't exist: " << temp << std::endl; // won't execute
     }
     catch (const std::exception& e)
     {
