@@ -8,30 +8,36 @@ int main()
     cout << "Please enter a floating-point value: ";
     double n;
     cin >> n;
-    cout << "n == " << n
-         << "\nn+1 == " << n + 1
-         << "\nthree times n == " << 3 * n
-         << "\ntwice n == " << n + n
-         << "\nn squared == " << n * n
-         << "\nhalf of n == " << n / 2
-         << "\nsquare root of n == " << sqrt(n)
-         << "\n";
+    cout << "n == " << n << endl;
+    cout << "n+1 == " << n + 1 << endl;
+    cout << "three times n == " << 3 * n << endl;
+    cout << "twice n == " << n + n << endl;
+    cout << "n squared == " << n * n << endl;
+    cout << "half of n == " << n / 2 << endl;
+    cout << "square root of n == " << sqrt(n) << endl;
 
-    cout << "Please enter your first and second names:\n";
+    cout << "Please enter your first and second names:" << endl;
     string first;
     string second;
     cin >> first >> second;
     string name = first + " " + second;
-    cout << "Hello, " << name << "\n";
+    cout << "Hello, " << name << endl;
 
-    cout << "Please enter two names:\n";
+    cout << "Please enter two names:" << endl;
     string first2;
     string second2;
     cin >> first >> second;
-    
-    if (first == second) cout << "Those are the same name.";
-    if (first < second) cout << first << " is alphabetically before " << second << "\n";
-    if (first > second) cout << first << " is alphabetically after " << second << "\n";
 
-    return 0;
+    if (first == second)
+    {
+        cout << "Those are the same name.";
+    }
+    if (first < second)
+    {
+        cout << first << " is alphabetically before " << second << endl;
+    }
+    if (first > second)
+    {
+        cout << first << " is alphabetically after " << second << endl;
+    }
 }
