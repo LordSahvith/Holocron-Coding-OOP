@@ -74,7 +74,7 @@ int main()
         }
     }
 
-    cout << "\n\n";
+    cout << endl;
 
     sort(convertedMetersVec);
 
