@@ -9,6 +9,7 @@ int main()
     double sumInMeters{0};
     double smallestNum{0};
     double largestNum{0};
+    vector<double> convertedMetersVec{};
 
     double currentNum{0};
     string unit{' '};
@@ -32,7 +33,6 @@ int main()
         {
             double cm{cm_per_in * currentNum};
             convertedToMeters = cm / cm_per_m;
-            sumInMeters += convertedToMeters;
 
             cout << currentNum << "in == " << cm << "cm" << endl;
         }
@@ -41,26 +41,26 @@ int main()
             double in{in_per_ft * currentNum};
             double cm{cm_per_in * in};
             convertedToMeters = cm / cm_per_m;
-            sumInMeters += convertedToMeters;
 
             cout << currentNum << "ft == " << in << "in" << endl;
         }
         else if (unit == "cm")
         {
             convertedToMeters = currentNum / cm_per_m;
-            sumInMeters += convertedToMeters;
             cout << currentNum << "cm == " << currentNum / cm_per_in << "in" << endl;
         }
         else if (unit == "m")
         {
             convertedToMeters = currentNum;
-            sumInMeters += convertedToMeters;
             cout << currentNum << "m == " << currentNum * cm_per_m << "cm" << endl;
         }
         else
         {
             cout << "Sorry, that unit is not available." << endl;
         }
+
+        sumInMeters += convertedToMeters;
+        convertedMetersVec.push_back(convertedToMeters);
 
         // Get Smallest & Largest Numbers
         if (convertedToMeters < smallestNum)
@@ -73,6 +73,17 @@ int main()
             largestNum = convertedToMeters;
         }
     }
+
+    cout << "\n\n";
+
+    cout << "[ ";
+    for (double item : convertedMetersVec)
+    {
+        cout << item << ", ";
+    }
+    cout << " ]";
+
+    cout << "\n\n";
 
     cout << "The sumInMeters: " << sumInMeters << "m == " << sumInMeters * cm_per_m << "cm" << endl;
     cout << "The smallest number: " << smallestNum << "m" << endl;
