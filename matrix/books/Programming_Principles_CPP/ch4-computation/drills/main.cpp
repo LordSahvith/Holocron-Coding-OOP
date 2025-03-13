@@ -7,6 +7,15 @@ int main()
 
     while (cin >> num1 >> num2)
     {
-        cout << num1 << ", " << num2 << endl;
+        if (num1 > num2)
+        {
+            cout << "the smaller number is: " << num2 << endl;
+            cout << "the larger number is: " << num1 << endl;
+        }
+        else
+        {
+            cout << "the smaller number is: " << num1 << endl;
+            cout << "the larger number is: " << num2 << endl;
+        }
     }
 }
