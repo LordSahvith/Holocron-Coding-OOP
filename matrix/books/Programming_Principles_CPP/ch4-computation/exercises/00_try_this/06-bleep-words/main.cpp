@@ -12,11 +12,6 @@ int main()
 
     while (cin >> current)
     {
-        if (current == ";")
-        {
-            break;
-        }
-
         typedWords.push_back(current);
     }
 
