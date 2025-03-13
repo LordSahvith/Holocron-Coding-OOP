@@ -2,36 +2,41 @@
 
 int main()
 {
-    constexpr double cm_per_in{2.54};
-    constexpr double in_per_ft{12.0};
     constexpr double cm_per_m{100.0};
 
+    double sum{0};
+    double smallestNum{0};
+    double largestNum{0};
+
     double currentNum{0};
-    string unit{' '};
+    bool isFirstLoop{true};
 
-    cout << "Please enter a length followed by a unit (in, ft, cm, m): ";
+    cout << "Please enter a length followed by a unit (m): ";
 
-    while (cin >> currentNum >> unit)
+    while (cin >> currentNum)
     {
-        if (unit == "in")
+        sum += currentNum;
+
+        cout << currentNum << "m == " << currentNum * cm_per_m << "cm" << endl;
+
+        if (isFirstLoop)
         {
-            cout << currentNum << "in == " << cm_per_in * currentNum << "cm" << endl;
+            smallestNum = currentNum;
+            isFirstLoop = false;
         }
-        else if (unit == "ft")
+
+        if (currentNum < smallestNum)
         {
-            cout << currentNum << "ft == " << in_per_ft * currentNum << "in" << endl;
+            smallestNum = currentNum;
         }
-        else if (unit == "cm")
+
+        if (currentNum > largestNum)
         {
-            cout << currentNum << "cm == " << currentNum / cm_per_in << "in" << endl;
-        }
-        else if (unit == "m")
-        {
-            cout << currentNum << "m == " << currentNum * cm_per_m << "cm" << endl;
-        }
-        else
-        {
-            cout << "Sorry, that unit is not available." << endl;
+            largestNum = currentNum;
         }
     }
+
+    cout << "The sum: " << sum << "m == " << sum * cm_per_m << "cm" << endl;
+    cout << "The smallest number: " << smallestNum << "m" << endl;
+    cout << "The largest number: " << largestNum << "m" << endl;
 }
