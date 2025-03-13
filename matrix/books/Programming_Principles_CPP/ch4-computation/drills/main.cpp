@@ -12,6 +12,10 @@ int main()
             cout << "the smaller number is: " << num2 << endl;
             cout << "the larger number is: " << num1 << endl;
         }
+        else if (num1 == num2)
+        {
+            cout << "the numbers are equal" << endl;
+        }
         else
         {
             cout << "the smaller number is: " << num1 << endl;
