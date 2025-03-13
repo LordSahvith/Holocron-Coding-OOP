@@ -29,5 +29,9 @@ int main()
         {
             cout << currentNum << "m == " << currentNum * cm_per_m << "cm" << endl;
         }
+        else
+        {
+            cout << "Sorry, that unit is not available." << endl;
+        }
     }
 }
