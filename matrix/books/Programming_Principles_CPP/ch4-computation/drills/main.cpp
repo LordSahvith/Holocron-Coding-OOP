@@ -6,7 +6,7 @@ int main()
     constexpr double in_per_ft{12.0};
     constexpr double cm_per_m{100.0};
 
-    double sum{0};
+    double sumInMeters{0};
     double smallestNum{0};
     double largestNum{0};
 
@@ -16,21 +16,23 @@ int main()
 
     cout << "Please enter a length followed by a unit (in, ft, cm, m): ";
 
+    double convertedToMeters{0.0};
+
     while (cin >> currentNum >> unit)
     {
-        double converted{0.0};
-
+        // set smallestNum on first iteration
         if (isFirstLoop)
         {
             smallestNum = currentNum;
             isFirstLoop = false;
         }
 
+        // Handle Conversions
         if (unit == "in")
         {
             double cm{cm_per_in * currentNum};
-            converted = cm / cm_per_m;
-            sum += converted;
+            convertedToMeters = cm / cm_per_m;
+            sumInMeters += convertedToMeters;
 
             cout << currentNum << "in == " << cm << "cm" << endl;
         }
@@ -38,21 +40,21 @@ int main()
         {
             double in{in_per_ft * currentNum};
             double cm{cm_per_in * in};
-            converted = cm / cm_per_m;
-            sum += converted;
+            convertedToMeters = cm / cm_per_m;
+            sumInMeters += convertedToMeters;
 
             cout << currentNum << "ft == " << in << "in" << endl;
         }
         else if (unit == "cm")
         {
-            converted = currentNum / cm_per_m;
-            sum += converted;
+            convertedToMeters = currentNum / cm_per_m;
+            sumInMeters += convertedToMeters;
             cout << currentNum << "cm == " << currentNum / cm_per_in << "in" << endl;
         }
         else if (unit == "m")
         {
-            converted = currentNum;
-            sum += converted;
+            convertedToMeters = currentNum;
+            sumInMeters += convertedToMeters;
             cout << currentNum << "m == " << currentNum * cm_per_m << "cm" << endl;
         }
         else
@@ -60,18 +62,19 @@ int main()
             cout << "Sorry, that unit is not available." << endl;
         }
 
-        if (converted < smallestNum)
+        // Get Smallest & Largest Numbers
+        if (convertedToMeters < smallestNum)
         {
-            smallestNum = converted;
+            smallestNum = convertedToMeters;
         }
 
-        if (converted > largestNum)
+        if (convertedToMeters > largestNum)
         {
-            largestNum = converted;
+            largestNum = convertedToMeters;
         }
     }
 
-    cout << "The sum: " << sum << "m == " << sum * cm_per_m << "cm" << endl;
+    cout << "The sumInMeters: " << sumInMeters << "m == " << sumInMeters * cm_per_m << "cm" << endl;
     cout << "The smallest number: " << smallestNum << "m" << endl;
     cout << "The largest number: " << largestNum << "m" << endl;
 }
