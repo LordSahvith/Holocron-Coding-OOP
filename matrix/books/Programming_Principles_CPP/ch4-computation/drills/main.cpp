@@ -76,6 +76,8 @@ int main()
 
     cout << "\n\n";
 
+    sort(convertedMetersVec);
+
     cout << "[ ";
     for (double item : convertedMetersVec)
     {
