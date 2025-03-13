@@ -2,24 +2,32 @@
 
 int main()
 {
+    constexpr double cm_per_in{2.54};
+    constexpr double in_per_ft{12.0};
+    constexpr double cm_per_m{100.0};
+
     double currentNum{0};
-    double smallestNum{0};
-    double largestNum{0};
+    string unit{' '};
 
-    while (cin >> currentNum)
+    cout << "Please enter a length followed by a unit (in, ft, cm, m): ";
+
+    while (cin >> currentNum >> unit)
     {
-        cout << currentNum;
-
-        if (currentNum < smallestNum)
+        if (unit == "in")
         {
-            smallestNum = currentNum;
-            cout << " is the smallest so far" << endl;
+            cout << currentNum << "in == " << cm_per_in * currentNum << "cm" << endl;
         }
-
-        if (currentNum > largestNum)
+        else if (unit == "ft")
         {
-            largestNum = currentNum;
-            cout << " is the largest so far" << endl;
+            cout << currentNum << "ft == " << in_per_ft * currentNum << "in" << endl;
+        }
+        else if (unit == "cm")
+        {
+            cout << currentNum << "cm == " << currentNum / cm_per_in << "in" << endl;
+        }
+        else if (unit == "m")
+        {
+            cout << currentNum << "m == " << currentNum * cm_per_m << "cm" << endl;
         }
     }
 }
