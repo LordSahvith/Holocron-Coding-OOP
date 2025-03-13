@@ -2,34 +2,24 @@
 
 int main()
 {
-    double num1{0};
-    double num2{0};
+    double currentNum{0};
+    double smallestNum{0};
+    double largestNum{0};
 
-    while (cin >> num1 >> num2)
+    while (cin >> currentNum)
     {
-        if (num1 > num2)
-        {
-            cout << "the smaller number is: " << num2 << endl;
-            cout << "the larger number is: " << num1 << endl;
+        cout << currentNum;
 
-            if (num1 - num2 <= 1.0 / 100)
-            {
-                cout << "the numbers are almost equal" << endl;
-            }
-        }
-        else if (num1 == num2)
+        if (currentNum < smallestNum)
         {
-            cout << "the numbers are equal" << endl;
+            smallestNum = currentNum;
+            cout << " is the smallest so far" << endl;
         }
-        else
-        {
-            cout << "the smaller number is: " << num1 << endl;
-            cout << "the larger number is: " << num2 << endl;
 
-            if (num2 - num1 <= 1.0 / 100)
-            {
-                cout << "the numbers are almost equal" << endl;
-            }
+        if (currentNum > largestNum)
+        {
+            largestNum = currentNum;
+            cout << " is the largest so far" << endl;
         }
     }
 }
