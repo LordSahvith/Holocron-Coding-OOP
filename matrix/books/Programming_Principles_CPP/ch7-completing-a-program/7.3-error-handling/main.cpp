@@ -1,0 +1,183 @@
+#include "../../00_std_lib_facilities.h"
+
+class Token
+{
+  public:
+    char kind;                                      // kind of token
+    double value;                                   // for numbers: a value
+    Token(char k) : kind{k}, value{0.0} {};         // construct from one value
+    Token(char k, double v) : kind{k}, value{v} {}; // construct from two values
+};
+
+class Token_stream
+{
+  public:
+    Token get();
+    void putback(Token token);
+
+  private:
+    bool full{false};
+    Token buffer{0};
+};
+
+void Token_stream::putback(Token token)
+{
+    if (full)
+    {
+        error("putback() into a full buffer");
+    }
+    buffer = token;
+    full = true;
+}
+
+Token Token_stream::get()
+{
+    if (full)
+    {
+        full = false;
+        return buffer;
+    }
+
+    char ch;
+    cin >> ch; // note that >> skips whitespace (space, newline, tab, etc.)
+
+    switch (ch)
+    {
+        case ';': // for "print"
+        case 'q': // for "quit"
+        case '(':
+        case ')':
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            return Token{ch}; // let each character represent itself
+        case '.':
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9': {
+            cin.putback(ch); // put digit back into the input stream
+            double val;
+            cin >> val;             // read a floating-point number
+            return Token('n', val); // let 'n' represent "a number"
+        }
+        default:
+            error("Bad token");
+            return Token('z');
+    }
+}
+
+double expression(); // deal with + and -
+double term();       // deal with *, /, and %
+double primary();    // deal with numbers and parentheses
+
+Token_stream token_stream;
+
+int main()
+{
+    try
+    {
+        while (cin)
+        {
+            Token token = token_stream.get();
+
+            while (token.kind == ';')
+            {
+                token = token_stream.get(); // eat ';'
+            }
+
+            if (token.kind == 'q')
+            {
+                return 0;
+            }
+
+            token_stream.putback(token);
+            cout << "= " << expression() << endl;
+        }
+        return 0;
+    }
+    catch (exception& e)
+    {
+        std::cerr << e.what() << endl;
+        return 1;
+    }
+}
+
+double expression()
+{
+    double left{term()};             // read and evaluate an Expression
+    Token token{token_stream.get()}; // get the next token
+    while (true)
+    {
+        switch (token.kind) // see which kind of token it is
+        {
+            case '+':
+                left += term(); // evaluate Term and add
+                token = token_stream.get();
+                break;
+            case '-':
+                left -= term(); // evaluate Term and subtract
+                token = token_stream.get();
+                break;
+            default:
+                token_stream.putback(token);
+                return left; // return the value of the Expression
+        }
+    }
+}
+
+double term()
+{
+    double left{primary()};          // read and evaluate an Expression
+    Token token{token_stream.get()}; // get the next token
+    while (true)
+    {
+        switch (token.kind) // see which kind of token it is
+        {
+            case '*':
+                left *= primary(); // evaluate Primary and multiply
+                token = token_stream.get();
+                break;
+            case '/':
+                left /= primary(); // evaluate Primary and divide
+                if (left == 0)
+                {
+                    error("divide by zero");
+                }
+                token = token_stream.get();
+                break;
+            default:
+                token_stream.putback(token);
+                return left; // return the value of the Expression
+        }
+    }
+}
+
+double primary()
+{
+    Token token{token_stream.get()};
+    switch (token.kind)
+    {
+        case '(': { // handle '(' expression ')'
+            double expr{expression()};
+            token = token_stream.get();
+            if (token.kind != ')')
+            {
+                error("')' expected");
+                return expr;
+            }
+        }
+        case 'n':               // 'n' for number
+            return token.value; // return the number's value
+        default:
+            error("primary expected");
+            return 0.0;
+    }
+}
