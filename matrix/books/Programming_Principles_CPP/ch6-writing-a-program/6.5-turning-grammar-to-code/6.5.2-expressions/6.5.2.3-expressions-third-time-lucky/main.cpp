@@ -1,0 +1,41 @@
+#include "../../../../00_std_lib_facilities.h"
+
+class Token
+{
+  public:
+    char kind;                                      // kind of token
+    double value;                                   // for numbers: a value
+    Token(char k) : kind{k}, value{0.0} {};         // construct from one value
+    Token(char k, double v) : kind{k}, value{v} {}; // construct from two values
+};
+
+Token get_token();   // read characters and compose tokens
+double expression(); // deal with + and -
+double term();       // deal with *, /, and %
+double primary();    // deal with numbers and parentheses
+
+int main()
+{
+}
+
+double expression()
+{
+    double left{term()};   // read and evaluate an Expression
+    Token t = get_token(); // get the next token
+    while (true)
+    {
+        switch (t.kind) // see which kind of token it is
+        {
+            case '+':
+                left += term(); // evaluate Term and add
+                t = get_token();
+                break;
+            case '-':
+                left -= term(); // evaluate Term and subtract
+                t = get_token();
+                break;
+            default:
+                return left; // return the value of the Expression
+        }
+    }
+}
