@@ -8,5 +8,7 @@ int main()
 
     Date dayOfWeek = next_Sunday(newDate);
 
+    std::cout << dayOfWeek << std::endl;
+
     return 0;
 }
