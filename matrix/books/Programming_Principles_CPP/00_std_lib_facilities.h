@@ -150,6 +150,15 @@ struct Exit : runtime_error
     }
 };
 
+struct Point
+{
+    int x;
+    int y;
+    Point(int xVal, int yVal) : x{xVal}, y{yVal}
+    {
+    }
+};
+
 // error() simply disguises throws:
 inline void error(const string& s)
 {
