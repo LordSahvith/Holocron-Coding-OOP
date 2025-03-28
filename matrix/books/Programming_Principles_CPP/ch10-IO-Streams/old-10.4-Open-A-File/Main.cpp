@@ -1,14 +1,13 @@
 #include "../../00_std_lib_facilities.h"
 
-const int not_a_reading = -7777; // less than absolute zero
-const int not_a_month = -1;
+const int not_a_reading{-7777}; // less than absolute zero
+const int not_a_month{-1};
+constexpr int implausible_min{-200};
+constexpr int implausible_max{200};
 
 struct Day
 {
-    vector<double> hour
-    {
-        vector<double>(24, not_a_reading)
-    };
+    vector<double> hour{vector<double>(24, not_a_reading)};
 };
 
 struct Month
@@ -46,9 +45,37 @@ void end_of_loop(istream& ist, char term, const string& message)
     {
         ist.clear();
         char ch;
-        if (ist >> ch && ch == term) return;
+        if (ist >> ch && ch == term)
+            return;
         error(message);
     }
+}
+
+vector<string> month_input_tbl = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+vector<string> month_print_tbl = {"January", "Feburary", "March",     "April",   "May",      "June",
+                                  "July",    "August",   "September", "October", "November", "December"};
+
+int month_to_int(string s)
+{
+    for (int i = 0; i < 12; ++i)
+    {
+        if (month_input_tbl[i] == s)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+string month_to_int(int i)
+{
+    if (i < 0 || 12 <= i)
+    {
+        error("bad month index");
+    }
+
+    return month_print_tbl[i];
 }
 
 istream& operator>>(istream& is, Reading& r)
@@ -115,9 +142,6 @@ istream& operator>>(istream& is, Month& m)
     end_of_loop(is, '{', "bad end of month");
     return is;
 }
-
-constexpr int implausible_min = -200;
-constexpr int implausible_max = 200;
 
 int main()
 {

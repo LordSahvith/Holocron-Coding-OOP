@@ -50,7 +50,7 @@ int get_int()
 
 int get_int(int low, int high)
 {
-    cout << "Please enter an integer in the raange " << low << " to " << high << " (inclusive):" << endl;
+    cout << "Please enter an integer in the range " << low << " to " << high << " (inclusive):" << endl;
 
     while (true)
     {
