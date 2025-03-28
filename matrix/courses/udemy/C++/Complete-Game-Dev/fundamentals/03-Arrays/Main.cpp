@@ -13,7 +13,7 @@ int main()
     // std::cout << employees[3] << std::endl; // there is no 4th index
 
     employees[2] = "savith";
-    std::cout << employees[2] << std::endl;
+    std::cout << employees[2] << std::endl; // savith
 
     return 0;
 }

@@ -31,28 +31,26 @@ int main()
     IDVec.erase(IDVec.begin() + 1); // removes from specified location
     std::cout << "the second of IDVec: " << IDVec[1] << std::endl;
 
-    // .at() does bounds checking
     try
     {
-        int temp{IDVec.at(5)}; // throws exception: out of bounds
+        int temp{IDVec.at(5)}; // .at() does bounds checking - throws exception: out of bounds
         std::cout << "doesn't exist: " << temp << std::endl; // won't execute
     }
     catch (const std::exception& e)
     {
-        std::cerr << e.what() << std::endl; // error: vector::_M_range_check: __n (which is 5) >= this->size() (which is 3)
+        // error: vector::_M_range_check: __n (which is 5) >= this->size() (which is 3)
+        std::cerr << e.what() << std::endl;
     }
 
-    // [] (subscripting) doesn't bounds check
     try
     {
-        int temp{IDVec[5]};
+        int temp{IDVec[5]};                                  // [] (subscripting) doesn't bounds check
         std::cout << "doesn't exist: " << temp << std::endl; // gives garbage data
     }
-    catch(const std::exception& e)
+    catch (const std::exception& e)
     {
-        std::cerr << e.what() << '\n'; // Won't execute
+        std::cerr << e.what() << std::endl; // Won't execute
     }
-    
 
     return 0;
 }

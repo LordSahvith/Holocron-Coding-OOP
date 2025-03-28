@@ -16,15 +16,15 @@ int main()
 
     std::cout << "size of IDs: " << IDs.size() << std::endl; // 3
     IDs.erase("Bobby");
-    std::cout << "size of IDs: " << IDs.size() << std::endl; // 2
+    std::cout << "size of IDs: " << IDs.size() << std::endl;  // 2
     std::cout << "Bobby's id: " << IDs["Bobby"] << std::endl; // if doesn't exist: inserts {"Bobby", 0} to back of Map
-    std::cout << "size of IDs: " << IDs.size() << std::endl; // 3
+    std::cout << "size of IDs: " << IDs.size() << std::endl;  // 3
 
-    IDs.clear(); // removes everything
+    IDs.clear();                                             // removes everything
     std::cout << "size of IDs: " << IDs.size() << std::endl; // 0
 
-    auto loc = IDs.find("Savith"); // returns iterator
-    bool doesExist = loc != IDs.end(); // does Savith exist
+    auto loc = IDs.find("Savith");                                // returns iterator
+    bool doesExist = loc != IDs.end();                            // does Savith exist
     std::cout << "Does Savith exist: " << doesExist << std::endl; // 0 (false)
 
     return 0;
