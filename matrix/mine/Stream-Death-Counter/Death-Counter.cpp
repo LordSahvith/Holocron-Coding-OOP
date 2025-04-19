@@ -27,21 +27,26 @@ std::vector<std::string> ReadFile(std::string fileName, std::vector<std::string>
     return counterRef;
 }
 
-int main()
+void WriteFile(std::string fileName, std::vector<std::string>& counterRef)
 {
-    std::string fileName{"in-file.txt"};
-
-    std::vector<std::string> counter;
-    counter = ReadFile(fileName, counter);
-
     std::ofstream outStream{fileName};
     if (!outStream)
     {
         std::cout << "Can't write to file " << fileName << std::endl;
     }
 
-    for (std::string count : counter)
+    for (std::string count : counterRef)
     {
         outStream << count;
     }
+}
+
+int main()
+{
+    std::string fileName{"deaths.txt"};
+
+    std::vector<std::string> counter;
+    counter = ReadFile(fileName, counter);
+
+    WriteFile(fileName, counter);
 }
