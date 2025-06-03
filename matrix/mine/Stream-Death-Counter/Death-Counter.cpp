@@ -16,11 +16,13 @@ std::vector<std::string> ReadFile(std::string fileName, std::vector<std::string>
     }
 
     std::string text;
-    int count;
-    while (inStream >> text >> count)
+    int count1;
+    int count2;
+    while (inStream >> count1 >> text >> count2)
     {
-        count++;
-        std::string lineOfText{text + ' ' + std::to_string(count) + '\n'};
+        count1++;
+        count2++;
+        std::string lineOfText{std::to_string(count1) + ' ' + text + ' ' + std::to_string(count2)};
         counterRef.push_back(lineOfText);
     }
 
